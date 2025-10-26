@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILMALISA - Unlimited Movies, TV Shows, and More</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="images/Group 89.png" alt="FILMALISA" class="logo-img">
+            </div>
+            <div class="header-actions">
+                <button class="signin-button">Sign In</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Unlimited movies, TV shows, and more</h1>
+            <p class="hero-subtitle">Filmalisa is a movie search platform</p>
+            <p class="hero-description">Ready to watch? Enter your email to create or restart membership.</p>
+            
+            <div class="email-form">
+                <input type="email" placeholder="Email address" class="email-input">
+                <button class="get-started-button">Get Started <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature">
+        <div class="container">
+            <div class="feature-content">
+                <div class="feature-text">
+                    <h2 class="feature-title">Enjoy on your TV</h2>
+                    <p class="feature-description">Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/loading-tv.gif" alt="Enjoy on your TV" class="enjoytv">
+                    <img src="images/tv.png" alt="TV" class="tv-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="watch-everywhere">
+        <div class="container">
+            <div class="watch-content">
+                <div class="devices-container">
+                    <img src="images/loading-tv-2.gif" alt="Netflix" class="netflix-img">
+                    <img src="images/devices.png" alt="Watch everywhere" class="devices">
+                </div>
+                <div class="watch-text">
+                    <h2 class="watch-title">Watch everywhere</h2>
+                    <p class="watch-description">Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kids-profile">
+        <div class="container">
+            <div class="kids-content">
+                <div class="kids-text">
+                    <h2 class="kids-title">Create profiles for kids</h2>
+                    <p class="kids-description">Send kids on adventures with their favorite characters in a space made just for them—free with your membership.</p>
+                </div>
+                <div class="kids-visual">
+                    <img src="images/kids.png" alt="Kids profiles" class="kids-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="contact-title">Contact Us</h2>
+            <p class="contact-subtitle">Have a question? Send us a message and we'll get back to you soon.</p>
+            
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="contactName" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="contactEmail" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="contactReason" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="container">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            How much does Filmalisa cost?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The cost varies depending on the subscription plan.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Where can I watch?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can watch on multiple devices, including smartphones, tablets, and TVs.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            How do I cancel?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can cancel your subscription anytime through your account settings.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            What can I watch on Filmalisa?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A wide variety of content, including movies, TV shows, and documentaries.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Is Filmalisa good for kids?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, it has a variety of family-friendly content and parental controls.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+          
+            <div class="column">
+                <h4 class="title">FAQ</h4>
+                <ul class="list">
+                    <li><a href="#" class="link">Investor Relations</a></li>
+                    <li><a href="#" class="link">Buy Gift Cards</a></li>
+                    <li><a href="#" class="link">Cookie Preferences</a></li>
+                    <li><a href="#" class="link">Legal Notices</a></li>
+                </ul>
+            </div>
+            
+            <div class="column">
+                <h4 class="title">Help Center</h4>
+                <ul class="list">
+                    <li><a href="#" class="link">Jobs</a></li>
+                    <li><a href="#" class="link">Ways to Watch</a></li>
+                    <li><a href="#" class="link">Corporate Information</a></li>
+                    <li><a href="#" class="link">Only on Filmalisa</a></li>
+                </ul>
+            </div>
+            
+            <div class="column">
+                <h4 class="title">Account</h4>
+                <ul class="list">
+                    <li><a href="#" class="link">Filmalisa Shop</a></li>
+                    <li><a href="#" class="link">Terms of Use</a></li>
+                    <li><a href="#" class="link">Contact Us</a></li>
+                    <li><a href="#" class="link">Do Not Sell or Share Personal Information</a></li>
+                </ul>
+            </div>
+            
+            <div class="column">
+                <h4 class="title">Media Center</h4>
+                <ul class="list">
+                    <li><a href="#" class="link">Redeem Gift Cards</a></li>
+                    <li><a href="#" class="link">Privacy</a></li>
+                    <li><a href="#" class="link">Speed Test</a></li>
+                    <li><a href="#" class="link">Ad Choices</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
+        
+        // Contact Form Handler
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const reason = document.getElementById('contactReason').value.trim();
+            
+            if (!name || !email || !reason) {
+                Toastify({
+                    text: "Please fill in all fields",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#e74c3c",
+                    stopOnFocus: true
+                }).showToast();
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        full_name: name,
+                        email: email,
+                        reason: reason
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.result || data.data) {
+                    Toastify({
+                        text: "Thank you! Your message has been sent successfully.",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "#27ae60",
+                        stopOnFocus: true
+                    }).showToast();
+                    document.getElementById('contactForm').reset();
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            } catch (error) {
+                console.error('Contact form error:', error);
+                Toastify({
+                    text: "Error: " + error.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#e74c3c",
+                    stopOnFocus: true
+                }).showToast();
+            }
+        });
+
+        // Sign In Button - Redirect to Login
+        document.querySelector('.signin-button').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        // Get Started Button - Redirect to Register with Email
+        document.querySelector('.get-started-button').addEventListener('click', function() {
+            const emailInput = document.querySelector('.email-input');
+            const email = emailInput.value.trim();
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!email) {
+                Toastify({
+                    text: "Please enter your email address",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#e74c3c",
+                    stopOnFocus: true
+                }).showToast();
+                emailInput.focus();
+                return;
+            }
+            
+            if (!emailRegex.test(email)) {
+                Toastify({
+                    text: "Please enter a valid email address",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#e74c3c",
+                    stopOnFocus: true
+                }).showToast();
+                emailInput.focus();
+                return;
+            }
+            
+            // Redirect to register page with email parameter
+            window.location.href = `register.html#email=${encodeURIComponent(email)}`;
+        });
+
+        // Enter Key Support for Email Input
+        document.querySelector('.email-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.get-started-button').click();
+            }
+        });
+    </script>
+</body>
+</html>

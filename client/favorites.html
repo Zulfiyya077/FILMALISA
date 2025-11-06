@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Movies | FILMALISA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/favorites.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <!-- Sidebar Menu -->
+        <aside class="sidebar-menu">
+            <div class="sidebar-logo">
+                <img src="../images/Animate2.svg" alt="FILMALISA" class="logo-image">
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="home.html" class="sidebar-item">
+                    <img src="../images/Icon button.svg" alt="Home" class="sidebar-icon">
+                </a>
+                
+                <a href="search.html" class="sidebar-item">
+                    <img src="../images/Icon button (1).svg" alt="Search" class="sidebar-icon">
+                </a>
+                
+                <a href="profile.html" class="sidebar-item">
+                    <img src="../images/Icon button (2).svg" alt="Profile" class="sidebar-icon">
+                </a>
+                
+                <a href="favorites.html" class="sidebar-item active">
+                    <img src="../images/Icon button (3).svg" alt="Favorites" class="sidebar-icon">
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="favorites-container">
+                <div class="favorites-header">
+                    <h1 class="favorites-title">Favorite movies</h1>
+                    <span class="chevron">></span>
+                </div>
+
+                <div class="favorites-movies" id="contentContainer">
+                    <!-- Movies will be loaded here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/favorites.js"></script>
+</body>
+</html>

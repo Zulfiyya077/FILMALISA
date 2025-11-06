@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - FILMALISA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/search.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="menu-container"></div>
+
+    <section class="search-section" style="min-height: 80vh; padding-top: 120px; background: #000; margin-left: 60px;">
+        <div class="search-container">
+            <h1 style="color: white; font-family: 'Raleway', sans-serif; font-size: 32px; margin-bottom: 40px;">Profile</h1>
+            <div style="color: white; font-family: 'Raleway', sans-serif; font-size: 18px;">Profile page coming soon...</div>
+        </div>
+    </section>
+
+    <div id="footer-container"></div>
+
+    <script>
+        fetch('../includes/menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+                
+                setTimeout(() => {
+                    const sidebarItems = document.querySelectorAll('.sidebar-item');
+                    sidebarItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.href.includes('profile.html')) {
+                            item.classList.add('active');
+                        }
+                    });
+                }, 100);
+            })
+            .catch(error => console.error('Error loading menu:', error));
+
+        fetch('../includes/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+</body>
+</html>

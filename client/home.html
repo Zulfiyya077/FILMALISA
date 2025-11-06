@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILMALISA</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/landing.css">
+    <link rel="stylesheet" href="../css/homepage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <div id="menu-container"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background">
+            <img src="../images/heroimg.jpg" alt="Featured Movie" class="hero-image">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="genre-tag">Science Fiction</div>
+                <div class="rating-stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <h1 class="hero-title">Godzilla vs. Kong</h1>
+                <p class="hero-description">
+                    In a time when monsters walk the Earth, humanity's fight for its future sets Godzilla and Kong on a collision course that will see the two most powerful forces of nature on the planet collide in a spectacular battle for the ages.
+                </p>
+                <button class="watch-now-button">Watch now</button>
+            </div>
+        </div>
+        <div class="carousel-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="categories-container">
+            <!-- Action Category -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">Action</h2>
+                    <span class="view-more">></span>
+                </div>
+                <div class="movies-container">
+                    <button class="scroll-button scroll-left" onclick="scrollLeft('action-movies')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                        </svg>
+                    </button>
+                    <div class="movies-scroll" id="action-movies">
+                        <div class="loading-spinner">Loading...</div>
+                    </div>
+                    <button class="scroll-button scroll-right" onclick="scrollRight('action-movies')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Categories will be loaded here -->
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <script src="../js/homepage.js"></script>
+    <script>
+        // Load menu component
+        fetch('../includes/menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+                
+                setTimeout(() => {
+                    const sidebarItems = document.querySelectorAll('.sidebar-item');
+                    sidebarItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.href.includes('home.html')) {
+                            item.classList.add('active');
+                        }
+                    });
+                }, 100);
+            })
+            .catch(error => console.error('Error loading menu:', error));
+
+        // Load footer component
+        fetch('../includes/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+</body>
+</html>

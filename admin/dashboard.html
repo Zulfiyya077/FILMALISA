@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | FILMALISA Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-page">
+     
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="../images/Group 89.png" alt="filmalisa" class="logo-image">
+            </div>
+            
+            <nav class="nav-section">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link active">
+                            <img src="../images/sidebar_dasboard_icon.svg" alt="Dashboard" class="nav-icon">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./movies.html" class="nav-link">
+                            <img src="../images/sidebar_movies_icon.svg" alt="Movies" class="nav-icon">
+                            <span>Movies</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./categories.html" class="nav-link">
+                            <img src="../images/sidebar_categories_icon.svg" alt="Categories" class="nav-icon">
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./users.html" class="nav-link">
+                            <img src="../images/sidebar_user_icon.svg" alt="Users" class="nav-icon">
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./comments.html" class="nav-link">
+                            <img src="../images/sidebar_comments_icon.svg" alt="Comments" class="nav-icon">
+                            <span>Comments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./actors.html" class="nav-link">
+                            <img src="../images/sidebar_user_icon.svg" alt="Actors" class="nav-icon">
+                            <span>Actors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">
+                            <img src="../images/sidebar_contact-us_icon.svg" alt="Contacts" class="nav-icon">
+                            <span>Contacts</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="logout-section">
+                <a href="../auth/login.html" class="logout-btn">
+                    <img src="../images/sidebar_logout_icon.svg" alt="Logout" class="logout-icon">
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+     
+        <div class="content-area">
+            <header class="header">
+                <div class="header-left">
+                    <div class="title-section">
+                        <span class="greeting">Hi Admin</span>
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="user-info">
+                        <img src="../images/adminavatar.png" alt="Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+            
+            <main class="main-content">
+                <div class="cards-wrapper">
+                  
+                    <div class="top-row-cards">
+                        <div class="card large">
+                            <h3 class="card-title">Favorite actions</h3>
+                            <p class="card-number" id="favorites-count">0</p>
+                        </div>
+                        
+                        <div class="card purple small">
+                            <h3 class="card-title">Users</h3>
+                            <p class="card-number" id="users-count">0</p>
+                        </div>
+                        
+                        <div class="card small">
+                            <h3 class="card-title">Movies</h3>
+                            <p class="card-number" id="movies-count">0</p>
+                        </div>
+                        
+                        <div class="card small">
+                            <h3 class="card-title">Comments</h3>
+                            <p class="card-number" id="comments-count">0</p>
+                        </div>
+                    </div>
+                    
+                  
+                    <div class="bottom-row-cards">
+                        <div class="card large">
+                            <h3 class="card-title">Categories</h3>
+                            <p class="card-number" id="categories-count">0</p>
+                        </div>
+                        
+                        <div class="card purple small">
+                            <h3 class="card-title">Actors</h3>
+                            <p class="card-number" id="actors-count">0</p>
+                        </div>
+                        
+                        <div class="card small">
+                            <h3 class="card-title">Contacts</h3>
+                            <p class="card-number" id="contacts-count">0</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Detail | FILMALISA</title>
+    <link rel="stylesheet" href="../css/movie-detail.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <div class="movie-detail-container">
+        <!-- Sidebar Menu -->
+        <div id="menu-container"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-background">
+                    <img src="" alt="" class="hero-image" id="heroImage">
+                    <div class="hero-overlay"></div>
+                </div>
+                
+                <div class="hero-content">
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item">Main/Home</span>
+                        <span class="breadcrumb-separator">></span>
+                        <span class="breadcrumb-item">Movies</span>
+                    </div>
+                    <h1 class="hero-title" id="heroTitle">Movie Title</h1>
+                </div>
+            </section>
+
+            <!-- Movie Details Section -->
+            <section class="movie-details-section">
+                <div class="container">
+                    <div class="row">
+                        <!-- Movie Poster -->
+                        <div class="col-md-4">
+                            <div class="movie-poster-container">
+                                <img src="" alt="" class="movie-poster" id="moviePoster">
+                            </div>
+                        </div>
+
+                        <!-- Movie Info -->
+                        <div class="col-md-8">
+                            <div class="movie-info">
+                                <div class="movie-header">
+                                    <h2 class="movie-title" id="movieTitle">Movie Title</h2>
+                                    <div class="movie-actions">
+                                        <button class="watch-link-btn" id="watchLinkBtn">Watch Link</button>
+                                        <button class="favorite-btn" id="favoriteBtn">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="movie-synopsis" id="movieSynopsis">
+                                    Movie synopsis will be loaded here...
+                                </div>
+
+                                <div class="movie-rating" id="movieRating">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="star-icon" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.439.81-.439 1.007 0l2.183 4.393 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                    <span class="rating-number">8.1</span>
+                                </div>
+
+                                <div class="movie-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value" id="movieType">Movie</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Status:</span>
+                                        <span class="detail-value" id="movieStatus">Released</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Run Time:</span>
+                                        <span class="detail-value" id="movieRuntime">120 min</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Genres:</span>
+                                        <span class="detail-value" id="movieGenres">Action & Adventure, Sci-Fi & Fantasy, Drama</span>
+                                    </div>
+                                </div>
+
+                                <div class="top-cast">
+                                    <h3 class="cast-title">top cast</h3>
+                                    <div class="cast-list" id="castList">
+                                        <!-- Cast will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comments Section -->
+            <section class="comments-section">
+                <div class="container">
+                    <div class="comment-input">
+                        <div class="user-avatar">
+                            <img src="https://placehold.co/40x40/58209d/FFFFFF?text=U" alt="User">
+                        </div>
+                        <input type="text" class="comment-field" placeholder="your comment..." id="commentInput">
+                        <button class="comment-submit-btn" id="commentSubmitBtn">
+                            <span class="submit-icon">→</span>
+                        </button>
+                    </div>
+
+                    <div class="existing-comments" id="existingComments">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Similar Movies Section -->
+            <section class="similar-movies-section">
+                <div class="container">
+                    <h3 class="similar-movies-title">similar movies ></h3>
+                    <div class="similar-movies-list" id="similarMovies">
+                        <!-- Similar movies will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Movie Trailer Modal -->
+    <div class="modal fade" id="trailerModal" tabindex="-1" aria-labelledby="trailerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content trailer-modal-content">
+                <div class="modal-header trailer-modal-header">
+                    <h5 class="modal-title" id="trailerModalTitle">Movie Trailer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body trailer-modal-body">
+                    <div class="trailer-container">
+                        <iframe id="trailerIframe" src="" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/movie-detail.js"></script>
+    <script>
+        // Load menu component
+        fetch('../includes/menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('menu-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading menu:', error));
+    </script>
+</body>
+</html>

@@ -35,9 +35,25 @@ function sanitizeInput(input) {
   return input.trim().replace(/[<>]/g, '');
 }
 
-// Client Login Handler
+window.addEventListener("load", () => {
+  const accessToken = sessionStorage.getItem("access_token");
+  if (accessToken) {
+    window.location.href = "../client/home.html";
+  }
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.querySelector('.login-form');
+  
+  const passwordInput = document.getElementById('loginPassword');
+  const togglePasswordIcon = passwordInput?.nextElementSibling;
+  
+  if (togglePasswordIcon && togglePasswordIcon.tagName === 'IMG') {
+    togglePasswordIcon.addEventListener('click', () => {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+    });
+  }
   
   if (loginForm) {
     loginForm.addEventListener("submit", async function (e) {
@@ -98,11 +114,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (response.ok && data.result === true) {
-          // Store token and user data if provided
-          if (data.data && data.data.access_token) {
+          if (data.data && data.data.tokens && data.data.tokens.access_token) {
+            sessionStorage.setItem('access_token', data.data.tokens.access_token);
+            sessionStorage.setItem('user_type', 'client');
+            if (data.data.user) {
+              sessionStorage.setItem('user_data', JSON.stringify(data.data.user));
+            }
+          } else if (data.data && data.data.access_token) {
             sessionStorage.setItem('access_token', data.data.access_token);
             sessionStorage.setItem('user_type', 'client');
-            
             if (data.data.user) {
               sessionStorage.setItem('user_data', JSON.stringify(data.data.user));
             }
@@ -110,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
           showToast("Giriş uğurludur!", 'success');
           
-          // Redirect to home page after short delay
           setTimeout(() => {
             window.location.href = "../client/home.html";
           }, 1000);
@@ -121,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
           passwordInput.focus();
         }
       } catch (error) {
-        console.error("🚨 Serverə sorğu zamanı xəta baş verdi:", error);
         showToast("Serverə qoşulmaq mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.", 'error');
       } finally {
         // Re-enable form
@@ -137,15 +155,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const registerEmailInput = document.getElementById('registerEmail');
   const registerPasswordInput = document.getElementById('registerPassword');
 
-  // Check if this is the register page
   if (registerForm && registerNameInput && registerEmailInput && registerPasswordInput) {
-    // Pre-fill email from URL hash if present
     const hash = window.location.hash;
     if (hash && hash.includes('email=')) {
       const emailParam = decodeURIComponent(hash.split('email=')[1]);
       if (validateEmail(emailParam)) {
         registerEmailInput.value = emailParam;
       }
+    }
+    
+    const savedEmail = sessionStorage.getItem("userRegistered");
+    if (savedEmail && !registerEmailInput.value) {
+      registerEmailInput.value = savedEmail.replace(/^"|"$/g, "");
+    }
+    
+    const passwordInput = document.getElementById('registerPassword');
+    const togglePasswordIcon = passwordInput?.nextElementSibling;
+    
+    if (togglePasswordIcon && togglePasswordIcon.tagName === 'IMG') {
+      togglePasswordIcon.addEventListener('click', () => {
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
+      });
     }
 
     registerForm.addEventListener("submit", async function (e) {
@@ -206,22 +237,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (response.ok && data.result === true) {
+          sessionStorage.setItem("userRegistered", email);
           showToast("Qeydiyyat uğurludur! Giriş səhifəsinə yönləndirilirsiniz...", 'success');
           
-          // Redirect to login page after short delay
           setTimeout(() => {
             window.location.href = "Clientlogin.html";
           }, 2000);
         } else {
           const errorMessage = data.message || "Qeydiyyat uğursuzdur";
-          showToast("Xəta: " + errorMessage, 'error');
+          if (errorMessage.includes("already registered") || errorMessage.includes("already in use")) {
+            showToast("Bu email artıq istifadə olunur. Zəhmət olmasa giriş edin.", 'error');
+            setTimeout(() => {
+              window.location.href = "Clientlogin.html";
+            }, 2000);
+          } else {
+            showToast("Xəta: " + errorMessage, 'error');
+          }
           
-          // Clear password field on error
           registerPasswordInput.value = '';
           registerPasswordInput.focus();
         }
       } catch (error) {
-        console.error("🚨 Serverə sorğu zamanı xəta baş verdi:", error);
         showToast("Serverə qoşulmaq mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.", 'error');
       } finally {
         // Re-enable form

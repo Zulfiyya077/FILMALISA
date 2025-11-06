@@ -224,7 +224,7 @@ async function updateDashboardCards() {
 
 function logout() {
     localStorage.removeItem('access_token');
-    window.location.href = '../auth/login.html';
+    window.location.href = '../auth/adminlogin.html';
 }
 
 async function initializeDashboard() {

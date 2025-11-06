@@ -220,11 +220,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="js/404-handler.js"></script>
     <script src="js/auth.js"></script>
     <script>
         const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
         
-        // Contact Form Handler
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -277,7 +277,6 @@
                     throw new Error('Failed to send message');
                 }
             } catch (error) {
-                console.error('Contact form error:', error);
                 Toastify({
                     text: "Error: " + error.message,
                     duration: 3000,
@@ -289,22 +288,34 @@
             }
         });
 
-        // Sign In Button - Redirect to Login
-        document.querySelector('.signin-button').addEventListener('click', function() {
-            window.location.href = 'auth/Clientlogin.html';
+        document.querySelector('.signin-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetUrl = 'auth/Clientlogin.html';
+            
+            Toastify({
+                text: "Giriş səhifəsinə yönləndirilirsiniz...",
+                duration: 2000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#7b5cff",
+                stopOnFocus: true
+            }).showToast();
+            
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
         });
 
-        // Get Started Button - Redirect to Register with Email
-        document.querySelector('.get-started-button').addEventListener('click', function() {
+        document.querySelector('.get-started-button').addEventListener('click', function(e) {
+            e.preventDefault();
             const emailInput = document.querySelector('.email-input');
             const email = emailInput.value.trim();
             
-            // Email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             
             if (!email) {
                 Toastify({
-                    text: "Please enter your email address",
+                    text: "Zəhmət olmasa email ünvanınızı daxil edin",
                     duration: 3000,
                     gravity: "top",
                     position: "right",
@@ -317,7 +328,7 @@
             
             if (!emailRegex.test(email)) {
                 Toastify({
-                    text: "Please enter a valid email address",
+                    text: "Zəhmət olmasa düzgün email ünvanı daxil edin",
                     duration: 3000,
                     gravity: "top",
                     position: "right",
@@ -328,16 +339,77 @@
                 return;
             }
             
-            // Redirect to register page with email parameter
-            window.location.href = `auth/clientregister.html#email=${encodeURIComponent(email)}`;
+            const targetUrl = `auth/clientregister.html#email=${encodeURIComponent(email)}`;
+            
+            Toastify({
+                text: `Qeydiyyat səhifəsinə yönləndirilirsiniz... (${email})`,
+                duration: 2000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#7b5cff",
+                stopOnFocus: true
+            }).showToast();
+            
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
         });
 
-        // Enter Key Support for Email Input
         document.querySelector('.email-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 document.querySelector('.get-started-button').click();
             }
         });
+        
+        const logo = document.querySelector('.logo-img');
+        if (logo) {
+            logo.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            logo.style.cursor = 'pointer';
+        }
+        
+        const footerLinks = document.querySelectorAll('.footer .link');
+        footerLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const linkText = this.textContent.trim();
+                const href = this.getAttribute('href');
+                
+                if (href === '#') {
+                    e.preventDefault();
+                    Toastify({
+                        text: `"${linkText}" linki hələ aktiv deyil`,
+                        duration: 2000,
+                        gravity: "bottom",
+                        position: "center",
+                        backgroundColor: "#9a9a9a",
+                        stopOnFocus: true
+                    }).showToast();
+                }
+            });
+        });
+        
+        const watchNowButton = document.querySelector('.watch-now-button');
+        if (watchNowButton) {
+            watchNowButton.addEventListener('click', function() {
+                const accessToken = sessionStorage.getItem('access_token');
+                if (accessToken) {
+                    window.location.href = 'client/home.html';
+                } else {
+                    Toastify({
+                        text: "İzləmək üçün giriş etməlisiniz",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "#7b5cff",
+                        stopOnFocus: true
+                    }).showToast();
+                    setTimeout(() => {
+                        window.location.href = 'auth/Clientlogin.html';
+                    }, 1500);
+                }
+            });
+        }
     </script>
 </body>
 </html>

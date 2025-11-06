@@ -110,7 +110,7 @@ function changePage(page) {
 
 function logout() {
     localStorage.removeItem('access_token');
-    window.location.href = '../auth/login.html';
+    window.location.href = '../auth/adminlogin.html';
 }
 
 async function initializeUsers() {

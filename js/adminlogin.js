@@ -1,6 +1,23 @@
+window.addEventListener("load", () => {
+  const accessToken = sessionStorage.getItem("access_token");
+  if (accessToken) {
+    window.location.href = "../admin/dashboard.html";
+  }
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");
   const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
+  
+  const passwordInput = document.getElementById('adminPassword');
+  const togglePasswordIcon = passwordInput?.nextElementSibling;
+  
+  if (togglePasswordIcon && togglePasswordIcon.tagName === 'IMG') {
+    togglePasswordIcon.addEventListener('click', () => {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+    });
+  }
 
   // Helper function to show toast notifications
   function showToast(message, type = 'error') {
@@ -88,15 +105,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
 
       if (response.ok && data.result === true) {
-        // Store token if provided
-        if (data.data && data.data.access_token) {
+        if (data.data && data.data.tokens && data.data.tokens.access_token) {
+          sessionStorage.setItem('access_token', data.data.tokens.access_token);
+          sessionStorage.setItem('user_type', 'admin');
+        } else if (data.data && data.data.access_token) {
           sessionStorage.setItem('access_token', data.data.access_token);
           sessionStorage.setItem('user_type', 'admin');
         }
 
         showToast("Giriş uğurludur!", 'success');
         
-        // Redirect to admin dashboard after short delay
         setTimeout(() => {
           window.location.href = "../admin/dashboard.html";
         }, 1000);
@@ -107,7 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
         passwordInput.focus();
       }
     } catch (error) {
-      console.error("🚨 Serverə sorğu zamanı xəta baş verdi:", error);
       showToast("Serverə qoşulmaq mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.", 'error');
     } finally {
       // Re-enable form

@@ -6,6 +6,7 @@
     <title>Admin Login</title>
     <link rel="stylesheet" href="../theme/reset.css" />
     <link rel="stylesheet" href="../css/adminlogin.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Numans&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
@@ -27,7 +28,7 @@
             class="icon-left"
             alt="icon"
           />
-          <input type="text" placeholder="username" required />
+          <input type="text" id="adminUsername" placeholder="username" required />
         </div>
 
         <div class="input-group">
@@ -36,7 +37,7 @@
             class="icon-left"
             alt="icon"
           />
-          <input type="password" placeholder="password" required />
+          <input type="password" id="adminPassword" placeholder="password" required />
           <img
             src="../assets/icons/righticon.svg"
             class="icon-right"
@@ -47,6 +48,7 @@
         <button type="submit">login</button>
       </form>
     </div>
-    <script src="../JS/adminlogin.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/adminlogin.js"></script>
   </body>
 </html>

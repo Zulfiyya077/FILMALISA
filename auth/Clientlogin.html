@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../theme/reset.css" />
     <link rel="stylesheet" href="../theme/global.css" />
     <link rel="stylesheet" href="../css/clientlogin.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
   </head>
   <body>
     <div class="container">
@@ -27,7 +28,7 @@
             alt="email icon"
             class="icon-img"
           />
-          <input type="email" placeholder="email" required />
+          <input type="email" id="loginEmail" placeholder="email" required />
         </div>
 
         <div class="input-group">
@@ -36,7 +37,7 @@
             alt="lock icon"
             class="icon-img"
           />
-          <input type="password" placeholder="password" required />
+          <input type="password" id="loginPassword" placeholder="password" required />
           <img
             src="../assets/icons/righticon.svg"
             alt="eye icon"
@@ -44,10 +45,12 @@
           />
         </div>
 
-        <a href="#" class="register-link">Register here</a>
+        <a href="clientregister.html" class="register-link">Register here</a>
 
         <button type="submit" class="login-btn">login</button>
       </form>
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/auth.js"></script>
   </body>
 </html>

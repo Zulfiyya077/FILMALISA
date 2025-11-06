@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background-color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  color: #ddd;
+  padding-bottom: 150px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.logo-img {
+  width: 249px;
+  height: 214px;
+  margin-bottom: 10px;
+}
+
+.logo h1 {
+  width: 347px;
+  height: 80px;
+  line-height: 80px;
+  font-family: "Numans", sans-serif;
+  font-size: 70px;
+  font-weight: 400;
+  color: #c3c8d4;
+}
+
+.subtitle {
+  width: 618px;
+  height: 80px;
+  line-height: 80px;
+  letter-spacing: -2px;
+  font-family: "poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  color: #c3c8d4;
+  margin-top: 4px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 547px;
+  height: 64px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 40px 12px 40px;
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.input-group input::placeholder {
+  color: #475069;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+  line-height: 16px;
+  letter-spacing: 0%;
+}
+
+.input-group input:focus {
+  border-color: #8a2be2;
+}
+
+.icon-img,
+.icon-img-right {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.7;
+}
+
+.icon-img {
+  left: 10px;
+}
+
+.icon-img-right {
+  right: 10px;
+  cursor: pointer;
+}
+
+.register-link {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: #99a3be;
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+}
+
+.register-link:hover {
+  color: #fff;
+}
+
+.login-btn {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0%;
+
+  background: linear-gradient(90deg, #9b51e0);
+  color: #fff;
+  border: 2px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}

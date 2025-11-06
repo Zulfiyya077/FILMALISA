@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies | FILMALISA Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="admin-page">
+     
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="../images/Group 89.png" alt="filmalisa" class="logo-image">
+            </div>
+            
+            <nav class="nav-section">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <img src="../images/sidebar_dasboard_icon.svg" alt="Dashboard" class="nav-icon">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./movies.html" class="nav-link active">
+                            <img src="../images/sidebar_movies_icon.svg" alt="Movies" class="nav-icon">
+                            <span>Movies</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./categories.html" class="nav-link">
+                            <img src="../images/sidebar_categories_icon.svg" alt="Categories" class="nav-icon">
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./users.html" class="nav-link">
+                            <img src="../images/sidebar_user_icon.svg" alt="Users" class="nav-icon">
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./comments.html" class="nav-link">
+                            <img src="../images/sidebar_comments_icon.svg" alt="Comments" class="nav-icon">
+                            <span>Comments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./actors.html" class="nav-link">
+                            <img src="../images/sidebar_user_icon.svg" alt="Actors" class="nav-icon">
+                            <span>Actors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">
+                            <img src="../images/sidebar_contact-us_icon.svg" alt="Contacts" class="nav-icon">
+                            <span>Contacts</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+              <div class="logout-section">
+                <a href="../auth/login.html" class="logout-btn">
+                    <img src="../images/sidebar_logout_icon.svg" alt="Logout" class="logout-icon">
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+     
+        <div class="content-area">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="title-section">
+                        <span class="greeting">Hi Admin</span>
+                        <h1>Movies</h1>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <button class="create-btn" onclick="openCreateModal()">
+                        <i class="fas fa-plus"></i>
+                        Create
+                    </button>
+                    <div class="user-info">
+                        <img src="../images/adminavatar.png" alt="Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Movies Table -->
+                <div class="movies-table-container">
+                     <table class="movies-table">
+                         <thead>
+                             <tr>
+                                 <th style="width: 50px;">ID</th>
+                                 <th style="width: 80px;">Poster</th>
+                                 <th style="width: 200px;">Title</th>
+                                 <th style="width: 300px;">Overview</th>
+                                 <th style="width: 100px;">Category</th>
+                                 <th style="width: 60px;">IMDB</th>
+                                 <th style="width: 100px;">Actions</th>
+                             </tr>
+                         </thead>
+                         <tbody id="moviesTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px; background: white;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination" id="moviesPagination">
+                        <!-- Pagination buttons will be generated dynamically -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Create/Edit Movie Modal -->
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="movieModalLabel">Create Movie</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="movieForm">
+                <div class="form-container">
+                    <div class="form-fields">
+                        <div class="form-group">
+                            <label for="movieTitle">Title</label>
+                            <input type="text" id="movieTitle" placeholder="title">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="movieOverview">Overview</label>
+                            <input type="text" id="movieOverview" placeholder="overview">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="movieCoverUrl">Cover URL</label>
+                            <input type="url" id="movieCoverUrl" placeholder="cover url">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="movieFragman">Fragman (YouTube Embed URL)</label>
+                            <input type="url" id="movieFragman" placeholder="fragman (youtube embed url)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="movieWatchUrl">Watch URL</label>
+                            <input type="url" id="movieWatchUrl" placeholder="watch url">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="movieImdb">IMDB</label>
+                            <input type="number" id="movieImdb" placeholder="7.6" step="0.1" min="0" max="10">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="movieRuntime">Run Time (Minutes)</label>
+                            <input type="number" id="movieRuntime" placeholder="run time minute">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categorySelect">Category</label>
+                            <select id="categorySelect">
+                                <option value="">Select category</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="actorsSelect">Actors</label>
+                            <select id="actorsSelect" multiple style="height: 120px;">
+                                <option value="">Loading actors...</option>
+                            </select>
+                            <small style="color: #888; font-size: 11px; display: block; margin-top: 4px;">
+                                Hold Ctrl (Cmd on Mac) to select multiple actors
+                            </small>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="movieAdult">
+                            <label for="movieAdult">Adult</label>
+                        </div>
+                    </div>
+
+                    <div class="movie-preview">
+                        <div class="preview-poster">
+                            <img id="moviePreview" src="https://placehold.co/300x450/333333/ffffff?text=Movie+Poster"
+                                alt="Movie Preview">
+                            <div class="preview-info">
+                                <h3 id="previewTitle">Lost in Space</h3>
+                                <p id="previewOverview">Lorem ipsum test...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="submit-btn" onclick="submitMovie()">
+                    <i class="fas fa-check"></i>
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove Confirmation Modal -->
+    <div id="removeModal" class="modal">
+        <div class="modal-content remove-modal">
+            <div class="modal-header">
+                <h2>Remove Movie</h2>
+                <button class="modal-close" onclick="closeRemoveModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="remove-content">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Are you sure you want to remove this movie?</p>
+                    <p class="movie-name" id="removeMovieName">Lost in Space</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeRemoveModal()">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+                <button class="confirm-remove-btn" onclick="confirmRemove()">
+                    <i class="fas fa-trash"></i>
+                    Remove
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/admin.js"></script>
+
+</body>
+
+</html>

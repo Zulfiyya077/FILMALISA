@@ -1,0 +1,171 @@
+.page-container {
+    display: flex;
+    min-height: 100vh;
+    background: #1a1a1a;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+    margin-left: 60px;
+}
+
+.favorites-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.favorites-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.favorites-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.chevron {
+    font-size: 24px;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+.favorites-movies {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scroll-behavior: smooth;
+    cursor: grab;
+}
+
+.favorites-movies.active {
+    cursor: grabbing;
+}
+
+.favorites-movies::-webkit-scrollbar {
+    height: 8px;
+}
+
+.favorites-movies::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+.favorites-movies::-webkit-scrollbar-thumb {
+    background: #58209d;
+    border-radius: 4px;
+}
+
+.favorites-movies::-webkit-scrollbar-thumb:hover {
+    background: #6d2bb8;
+}
+
+.content-card {
+    flex: 0 0 320px;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #2a2a2a;
+}
+
+.content-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.content-image {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+}
+
+.content-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 20px;
+    color: white;
+}
+
+.content-category {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    color: #cccccc;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 4px;
+}
+
+.movie-rating .star {
+    width: 16px;
+    height: 16px;
+    color: #999;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.movie-rating .star.filled {
+    color: #ffd700;
+}
+
+.movie-rating .star.half {
+    color: #ffd700;
+    opacity: 0.5;
+}
+
+.content-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 80px 20px;
+    color: #cccccc;
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .favorites-movies {
+        gap: 16px;
+    }
+    
+    .content-card {
+        flex: 0 0 280px;
+    }
+    
+    .content-image {
+        height: 420px;
+    }
+}

@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: 3000,
       gravity: "top",
       position: "right",
-      backgroundColor: backgroundColor,
+      style: {
+        background: backgroundColor
+      },
       stopOnFocus: true
     }).showToast();
   }
@@ -108,9 +110,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.data && data.data.tokens && data.data.tokens.access_token) {
           sessionStorage.setItem('access_token', data.data.tokens.access_token);
           sessionStorage.setItem('user_type', 'admin');
+          if (data.data.profile) {
+            sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
+          }
         } else if (data.data && data.data.access_token) {
           sessionStorage.setItem('access_token', data.data.access_token);
           sessionStorage.setItem('user_type', 'admin');
+          if (data.data.profile) {
+            sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
+          }
         }
 
         showToast("Giriş uğurludur!", 'success');

@@ -1,0 +1,118 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Numans&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Numans&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"); */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #0f0f10;
+  color: white;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 30px 20px;
+}
+
+.logo {
+  width: 249px;
+  height: 214px;
+  margin-bottom: 10px;
+  margin-top: 90px;
+}
+
+.login-title {
+  font-family: "Numans", sans-serif;
+  font-size: 70px;
+  font-weight: 400;
+  color: #c3c8d4;
+  margin-bottom: 30px;
+  text-align: center;
+  width: 264px;
+  height: 80px;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 40px 12px 40px;
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.input-group input::placeholder {
+  color: #475069;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+  line-height: 16px;
+  letter-spacing: 0%;
+}
+
+.input-group input:focus {
+  border-color: #8b2cff;
+}
+
+.icon-left,
+.icon-right {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+}
+
+.icon-left {
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icon-right {
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+button {
+  width: 547px;
+  padding: 12px;
+  background: linear-gradient(90deg, #8b2cff, #9b51e0);
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}

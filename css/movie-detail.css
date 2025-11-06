@@ -1,0 +1,1190 @@
+/* Movie Detail Page Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+.movie-detail-container {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Menu */
+#menu-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 80px;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 80vh;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    z-index: 2;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.breadcrumb-separator {
+    color: #666666;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Movie Details Section */
+.movie-details-section {
+    padding: 40px 0;
+    background-color: #000000;
+}
+
+.movie-poster-container {
+    position: relative;
+}
+
+.movie-poster {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.movie-info {
+    padding-left: 40px;
+}
+
+.movie-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.movie-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    margin-bottom: 20px;
+}
+
+.movie-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.watch-link-btn {
+    background-color: #f39c12;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Raleway', sans-serif;
+}
+
+.watch-link-btn:hover {
+    background-color: #e67e22;
+}
+
+.favorite-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #333333;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+    font-family: 'Raleway', sans-serif;
+}
+
+.favorite-btn:hover {
+    background-color: #555555;
+}
+
+.favorite-btn.active {
+    background-color: #58209d;
+}
+
+.favorite-icon {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.movie-synopsis {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #ffffff;
+    margin-bottom: 20px;
+    max-width: 600px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+.star-icon {
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+}
+
+.rating-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+}
+
+.movie-details {
+    margin-bottom: 30px;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #ffffff;
+    min-width: 120px;
+}
+
+.detail-value {
+    color: #ffffff;
+}
+
+/* Top Cast */
+.top-cast {
+    margin-top: 40px;
+}
+
+.cast-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    text-transform: lowercase;
+}
+
+.cast-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.cast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+    cursor: pointer;
+    position: relative;
+}
+
+.cast-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 0;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.cast-avatar:hover {
+    border-color: #58209d;
+}
+
+.cast-name {
+    font-size: 12px;
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    text-transform: lowercase;
+}
+
+.cast-role {
+    font-size: 11px;
+    color: #cccccc;
+    text-align: center;
+    line-height: 1.3;
+    font-family: 'Raleway', sans-serif;
+    text-transform: lowercase;
+    margin-top: 2px;
+}
+
+/* Comments Section */
+.comments-section {
+    padding: 40px 0;
+    background-color: #111111;
+}
+
+.comment-input {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 0 40px;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-field {
+    flex: 1;
+    background-color: #222222;
+    border: 1px solid #333333;
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.comment-field::placeholder {
+    color: #666666;
+}
+
+.comment-field:focus {
+    outline: none;
+    border-color: #ffffff;
+}
+
+.comment-submit-btn {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(88, 32, 157, 1);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.comment-submit-btn:hover {
+    background-color: rgba(98, 42, 167, 1);
+}
+
+.submit-icon {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.existing-comments {
+    padding: 0 40px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #222222;
+    border-radius: 12px;
+}
+
+.comment-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.comment-time {
+    color: #666666;
+    font-size: 12px;
+}
+
+.comment-text {
+    color: #cccccc;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Similar Movies Section */
+.similar-movies-section {
+    padding: 40px 0;
+    background-color: #000000;
+}
+
+.similar-movies-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    padding: 0 40px;
+    color: #ffffff;
+}
+
+.similar-movies-list {
+    display: flex;
+    gap: 20px;
+    padding: 0 40px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
+.similar-movie-card {
+    flex: 0 0 200px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.similar-movie-card:hover {
+    transform: translateY(-8px);
+}
+
+.similar-movie-poster {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.similar-movie-genre {
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 8px;
+}
+
+.similar-movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.similar-movie-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.similar-movie-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Modal Styles */
+.trailer-modal-content {
+    background-color: #000000;
+    border: 1px solid #333333;
+    border-radius: 12px;
+}
+
+.trailer-modal-header {
+    border-bottom: 1px solid #333333;
+    padding: 20px;
+}
+
+.modal-title {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+.trailer-modal-body {
+    padding: 20px;
+}
+
+.trailer-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    margin-bottom: 20px;
+}
+
+.trailer-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .hero-content {
+        left: 20px;
+        bottom: 40px;
+    }
+    
+    .hero-title {
+        font-size: 32px;
+    }
+    
+    .movie-info {
+        padding-left: 0;
+        margin-top: 20px;
+    }
+    
+    .movie-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .comment-input,
+    .existing-comments,
+    .similar-movies-title,
+    .similar-movies-list {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+
+@media screen and (max-width: 1024px) {
+    #menu-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+        z-index: 1001;
+    }
+
+    .sidebar-menu {
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+        padding: 0 20px;
+        justify-content: space-between;
+        border-bottom: 2px solid rgba(88, 32, 157, 0.3);
+    }
+
+    .sidebar-logo {
+        margin-bottom: 0;
+        margin-right: 20px;
+    }
+
+    .logo-image {
+        width: 35px;
+        height: 35px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .sidebar-item {
+        width: 45px;
+        height: 45px;
+    }
+
+    .sidebar-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        margin-top: 60px;
+    }
+
+    .hero-section {
+        height: 65vh;
+    }
+
+    .hero-content {
+        left: 30px;
+        bottom: 40px;
+    }
+
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .movie-poster {
+        max-width: 280px;
+    }
+
+    .movie-title {
+        font-size: 32px;
+    }
+
+    .comment-input,
+    .existing-comments,
+    .similar-movies-title,
+    .similar-movies-list {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar-menu {
+        height: 55px;
+        padding: 0 15px;
+    }
+
+    .logo-image {
+        width: 32px;
+        height: 32px;
+    }
+
+    .sidebar-nav {
+        gap: 12px;
+    }
+
+    .sidebar-item {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sidebar-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .main-content {
+        margin-top: 55px;
+    }
+
+    .hero-section {
+        height: 55vh;
+        min-height: 400px;
+    }
+
+    .hero-content {
+        left: 15px;
+        bottom: 30px;
+    }
+
+    .breadcrumb {
+        font-size: 11px;
+        margin-bottom: 12px;
+    }
+
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .movie-details-section {
+        padding: 30px 0;
+    }
+
+    .movie-poster {
+        max-width: 100%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .movie-info {
+        padding-left: 0;
+        margin-top: 25px;
+    }
+
+    .movie-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .movie-title {
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .movie-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .watch-link-btn {
+        flex: 1;
+        max-width: 200px;
+    }
+
+    .movie-synopsis {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    .movie-rating {
+        margin-bottom: 20px;
+    }
+
+    .rating-number {
+        font-size: 16px;
+    }
+
+    .movie-details {
+        margin-bottom: 25px;
+    }
+
+    .detail-row {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .detail-label {
+        min-width: 90px;
+    }
+
+    .top-cast {
+        margin-top: 30px;
+    }
+
+    .cast-title {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .cast-list {
+        gap: 12px;
+    }
+
+    .cast-item {
+        min-width: 80px;
+    }
+
+    .cast-avatar {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cast-name {
+        font-size: 10px;
+    }
+
+    .cast-role {
+        font-size: 9px;
+    }
+
+    .comments-section {
+        padding: 30px 0;
+    }
+
+    .comment-input,
+    .existing-comments {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .comment-input {
+        gap: 10px;
+    }
+
+    .user-avatar img,
+    .comment-avatar img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .comment-field {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .comment-submit-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .comment-item {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .comment-author {
+        font-size: 13px;
+    }
+
+    .comment-time {
+        font-size: 11px;
+    }
+
+    .comment-text {
+        font-size: 13px;
+    }
+
+    .similar-movies-section {
+        padding: 30px 0;
+    }
+
+    .similar-movies-title,
+    .similar-movies-list {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .similar-movies-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .similar-movies-list {
+        gap: 15px;
+    }
+
+    .similar-movie-card {
+        flex: 0 0 140px;
+    }
+
+    .similar-movie-poster {
+        height: 210px;
+    }
+
+    .similar-movie-genre {
+        font-size: 11px;
+    }
+
+    .similar-movie-title {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .sidebar-menu {
+        height: 50px;
+        padding: 0 12px;
+    }
+
+    .logo-image {
+        width: 28px;
+        height: 28px;
+    }
+
+    .sidebar-nav {
+        gap: 10px;
+    }
+
+    .sidebar-item {
+        width: 38px;
+        height: 38px;
+    }
+
+    .sidebar-item.active::before {
+        display: none;
+    }
+
+    .sidebar-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .main-content {
+        margin-top: 50px;
+    }
+
+    .hero-section {
+        height: 50vh;
+        min-height: 350px;
+    }
+
+    .hero-content {
+        left: 12px;
+        bottom: 25px;
+    }
+
+    .breadcrumb {
+        font-size: 10px;
+        gap: 6px;
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .movie-details-section {
+        padding: 25px 0;
+    }
+
+    .movie-title {
+        font-size: 24px;
+    }
+
+    .watch-link-btn {
+        padding: 9px 18px;
+        font-size: 12px;
+    }
+
+    .favorite-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .movie-synopsis {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .star-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .rating-number {
+        font-size: 15px;
+    }
+
+    .detail-row {
+        font-size: 11px;
+        flex-direction: column;
+        margin-bottom: 8px;
+    }
+
+    .detail-label {
+        min-width: auto;
+        margin-bottom: 4px;
+    }
+
+    .cast-title {
+        font-size: 15px;
+    }
+
+    .cast-list {
+        gap: 10px;
+    }
+
+    .cast-item {
+        min-width: 70px;
+    }
+
+    .cast-avatar {
+        width: 55px;
+        height: 55px;
+    }
+
+    .comment-input,
+    .existing-comments {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .comment-input {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .user-avatar img,
+    .comment-avatar img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .comment-field {
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+
+    .comment-submit-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .submit-icon {
+        font-size: 14px;
+    }
+
+    .comment-item {
+        padding: 12px;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .comment-author {
+        font-size: 12px;
+    }
+
+    .comment-time {
+        font-size: 10px;
+    }
+
+    .comment-text {
+        font-size: 12px;
+    }
+
+    .similar-movies-title,
+    .similar-movies-list {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .similar-movies-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .similar-movies-list {
+        gap: 12px;
+    }
+
+    .similar-movie-card {
+        flex: 0 0 130px;
+    }
+
+    .similar-movie-poster {
+        height: 195px;
+        border-radius: 6px;
+    }
+
+    .similar-movie-genre {
+        font-size: 10px;
+        margin-bottom: 6px;
+    }
+
+    .star {
+        font-size: 10px;
+    }
+
+    .similar-movie-title {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+
+    .trailer-modal-content {
+        border-radius: 8px;
+    }
+
+    .trailer-modal-header,
+    .trailer-modal-body {
+        padding: 15px;
+    }
+
+    .modal-title {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar-menu {
+        padding: 0 10px;
+    }
+
+    .sidebar-nav {
+        gap: 8px;
+    }
+
+    .sidebar-item {
+        width: 36px;
+        height: 36px;
+    }
+
+    .hero-section {
+        height: 45vh;
+        min-height: 320px;
+    }
+
+    .hero-title {
+        font-size: 22px;
+    }
+
+    .movie-title {
+        font-size: 22px;
+    }
+
+    .movie-synopsis {
+        font-size: 12px;
+    }
+
+    .watch-link-btn {
+        font-size: 11px;
+        padding: 8px 16px;
+    }
+
+    .favorite-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .cast-avatar {
+        width: 50px;
+        height: 50px;
+    }
+
+    .cast-name,
+    .cast-role {
+        font-size: 9px;
+    }
+
+    .similar-movie-card {
+        flex: 0 0 120px;
+    }
+
+    .similar-movie-poster {
+        height: 180px;
+    }
+}
+
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .hero-section {
+        height: 80vh;
+    }
+
+    .hero-title {
+        font-size: 26px;
+    }
+
+    .movie-title {
+        font-size: 26px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .main-content {
+        margin-left: 80px;
+    }
+
+    .hero-title {
+        font-size: 56px;
+    }
+
+    .movie-title {
+        font-size: 52px;
+    }
+
+    .movie-synopsis {
+        font-size: 18px;
+        max-width: 700px;
+    }
+
+    .cast-avatar {
+        width: 90px;
+        height: 90px;
+    }
+
+    .cast-name {
+        font-size: 13px;
+    }
+
+    .cast-role {
+        font-size: 12px;
+    }
+
+    .similar-movie-card {
+        flex: 0 0 220px;
+    }
+
+    .similar-movie-poster {
+        height: 330px;
+    }
+}

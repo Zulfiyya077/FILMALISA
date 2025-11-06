@@ -291,7 +291,7 @@
 
         // Sign In Button - Redirect to Login
         document.querySelector('.signin-button').addEventListener('click', function() {
-            window.location.href = 'login.html';
+            window.location.href = 'auth/Clientlogin.html';
         });
 
         // Get Started Button - Redirect to Register with Email
@@ -329,7 +329,7 @@
             }
             
             // Redirect to register page with email parameter
-            window.location.href = `register.html#email=${encodeURIComponent(email)}`;
+            window.location.href = `auth/clientregister.html#email=${encodeURIComponent(email)}`;
         });
 
         // Enter Key Support for Email Input

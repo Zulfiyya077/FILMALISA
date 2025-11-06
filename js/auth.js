@@ -8,7 +8,9 @@ function showToast(message, type = 'error') {
     duration: 3000,
     gravity: "top",
     position: "right",
-    backgroundColor: backgroundColor,
+    style: {
+      background: backgroundColor
+    },
     stopOnFocus: true
   }).showToast();
 }
@@ -101,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const response = await fetch(
-          `${API_URL}/auth/client/login`,
+          `${API_URL}/auth/login`,
           {
             method: "POST",
             headers: {
@@ -117,14 +119,14 @@ document.addEventListener("DOMContentLoaded", function () {
           if (data.data && data.data.tokens && data.data.tokens.access_token) {
             sessionStorage.setItem('access_token', data.data.tokens.access_token);
             sessionStorage.setItem('user_type', 'client');
-            if (data.data.user) {
-              sessionStorage.setItem('user_data', JSON.stringify(data.data.user));
+            if (data.data.profile) {
+              sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
             }
           } else if (data.data && data.data.access_token) {
             sessionStorage.setItem('access_token', data.data.access_token);
             sessionStorage.setItem('user_type', 'client');
-            if (data.data.user) {
-              sessionStorage.setItem('user_data', JSON.stringify(data.data.user));
+            if (data.data.profile) {
+              sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
             }
           }
 
@@ -224,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const response = await fetch(
-          `${API_URL}/auth/client/register`,
+          `${API_URL}/auth/register`,
           {
             method: "POST",
             headers: {

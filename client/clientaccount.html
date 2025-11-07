@@ -19,119 +19,121 @@
   <body>
     <div id="menu-container"></div>
 
-    <main class="profile-main">
-      <section class="profile-card">
-        <div class="profile-photo">
-          <img
-            src=""
-            alt="Profile image"
-            id="profileImagePreview"
-          />
-        </div>
-        <div style="text-align: center;">
-          <h1 class="profile-title">Account Information</h1>
-          <p class="profile-subtitle">
-            Update your personal details and keep your account secure.
-          </p>
-        </div>
-
-        <form class="profile-form" id="profileForm" novalidate>
-          <div class="profile-input">
+    <div class="page-container">
+      <main class="profile-main">
+        <section class="profile-card">
+          <div class="profile-photo">
             <img
-              src="../assets/icons/lefticon2.svg"
-              alt="icon"
-              class="icon-left"
-            />
-            <input
-              type="url"
-              id="profileImage"
-              placeholder="Profile image URL"
-              autocomplete="off"
-            />
-            <img
-              src="../assets/icons/righticon.svg"
-              alt="icon"
-              class="icon-right"
-              id="profileImageClear"
+              src=""
+              alt="Profile image"
+              id="profileImagePreview"
             />
           </div>
-
-          <div class="profile-input">
-            <img
-              src="../assets/icons/lefticon2.svg"
-              alt="icon"
-              class="icon-left"
-            />
-            <input
-              type="text"
-              id="fullName"
-              placeholder="Full name"
-              autocomplete="name"
-              required
-            />
-            <img
-              src="../assets/icons/righticon.svg"
-              alt="icon"
-              class="icon-right"
-              style="opacity: 0.4; cursor: default;"
-            />
+          <div style="text-align: center;">
+            <h1 class="profile-title">Account Information</h1>
+            <p class="profile-subtitle">
+              Update your personal details and keep your account secure.
+            </p>
           </div>
 
-          <div class="profile-input">
-            <img
-              src="../assets/icons/lefticon1.svg"
-              alt="icon"
-              class="icon-left"
-            />
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              autocomplete="email"
-              readonly
-            />
-            <img
-              src="../assets/icons/righticon.svg"
-              alt="icon"
-              class="icon-right"
-              style="opacity: 0.4; cursor: default;"
-            />
-          </div>
+          <form class="profile-form" id="profileForm" novalidate>
+            <div class="profile-input">
+              <img
+                src="../assets/icons/lefticon2.svg"
+                alt="icon"
+                class="icon-left"
+              />
+              <input
+                type="url"
+                id="profileImage"
+                placeholder="Profile image URL"
+                autocomplete="off"
+              />
+              <img
+                src="../assets/icons/righticon.svg"
+                alt="icon"
+                class="icon-right"
+                id="profileImageClear"
+              />
+            </div>
 
-          <div class="profile-input">
-            <img
-              src="../assets/icons/lefticon2.svg"
-              alt="icon"
-              class="icon-left"
-            />
-            <input
-              type="password"
-              id="password"
-              placeholder="New password (optional)"
-              autocomplete="new-password"
-            />
-            <img
-              src="../assets/icons/righticon.svg"
-              alt="Toggle password visibility"
-              class="icon-right"
-              id="togglePasswordVisibility"
-            />
-          </div>
+            <div class="profile-input">
+              <img
+                src="../assets/icons/lefticon2.svg"
+                alt="icon"
+                class="icon-left"
+              />
+              <input
+                type="text"
+                id="fullName"
+                placeholder="Full name"
+                autocomplete="name"
+                required
+              />
+              <img
+                src="../assets/icons/righticon.svg"
+                alt="icon"
+                class="icon-right"
+                style="opacity: 0.4; cursor: default;"
+              />
+            </div>
 
-          <p class="profile-hint">
-            Password should contain at least 6 characters. When you enter an image URL,
-            the preview updates automatically.
-          </p>
+            <div class="profile-input">
+              <img
+                src="../assets/icons/lefticon1.svg"
+                alt="icon"
+                class="icon-left"
+              />
+              <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                autocomplete="email"
+                readonly
+              />
+              <img
+                src="../assets/icons/righticon.svg"
+                alt="icon"
+                class="icon-right"
+                style="opacity: 0.4; cursor: default;"
+              />
+            </div>
 
-          <div class="profile-actions">
-            <button type="submit" class="profile-submit">Yadda saxla</button>
-            <button type="button" class="profile-submit profile-reset" id="profileReset">
-              Reset changes
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
+            <div class="profile-input">
+              <img
+                src="../assets/icons/lefticon2.svg"
+                alt="icon"
+                class="icon-left"
+              />
+              <input
+                type="password"
+                id="password"
+                placeholder="New password (optional)"
+                autocomplete="new-password"
+              />
+              <img
+                src="../assets/icons/righticon.svg"
+                alt="Toggle password visibility"
+                class="icon-right"
+                id="togglePasswordVisibility"
+              />
+            </div>
+
+            <p class="profile-hint">
+              Password should contain at least 6 characters. When you enter an image URL,
+              the preview updates automatically.
+            </p>
+
+            <div class="profile-actions">
+              <button type="submit" class="profile-submit">Yadda saxla</button>
+              <button type="button" class="profile-submit profile-reset" id="profileReset">
+                Reset changes
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
 
     <div id="footer-container"></div>
 
@@ -157,7 +159,9 @@
         return `${AVATAR_BASE_URL}${encodeURIComponent(seed)}`;
       };
 
-      loadMenuAndFooter({ activePage: 'clientaccount' });
+      window.addEventListener('DOMContentLoaded', () => {
+        loadMenuAndFooter({ activePage: 'clientaccount', includeFooter: true });
+      });
 
       document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('profileForm');

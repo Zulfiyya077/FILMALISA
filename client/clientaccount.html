@@ -133,10 +133,8 @@
     <div id="footer-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/menu-loader.js"></script>
     <script>
-      const menuContainer = document.getElementById('menu-container');
-      const footerContainer = document.getElementById('footer-container');
-
       const showToast = (message, type = 'success') => {
         Toastify({
           text: message,
@@ -149,29 +147,7 @@
         }).showToast();
       };
 
-      fetch('../includes/menu.html')
-        .then((response) => response.text())
-        .then((data) => {
-          menuContainer.innerHTML = data;
-
-          setTimeout(() => {
-            const sidebarItems = document.querySelectorAll('.sidebar-item');
-            sidebarItems.forEach((item) => {
-              item.classList.remove('active');
-              if (item.href && item.href.includes('clientaccount.html')) {
-                item.classList.add('active');
-              }
-            });
-          }, 100);
-        })
-        .catch((error) => console.error('Menu yüklənmə xətası:', error));
-
-      fetch('../includes/footer.html')
-        .then((response) => response.text())
-        .then((data) => {
-          footerContainer.innerHTML = data;
-        })
-        .catch((error) => console.error('Footer yüklənmə xətası:', error));
+      loadMenuAndFooter({ activePage: 'clientaccount' });
 
       document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('profileForm');
@@ -184,6 +160,7 @@
         const clearImageButton = document.getElementById('profileImageClear');
         const togglePassword = document.getElementById('togglePasswordVisibility');
 
+        const DEFAULT_AVATAR = '../assets/images/1651258516656 1.png';
         const storedUserRaw = sessionStorage.getItem('user_data');
         if (storedUserRaw) {
           try {
@@ -201,7 +178,7 @@
 
         const updatePreview = (value) => {
           if (!value) {
-            previewImage.src = '../assets/images/1651258516656 1.png';
+            previewImage.src = DEFAULT_AVATAR;
             return;
           }
           previewImage.src = value;
@@ -231,6 +208,9 @@
               imageInput.value = storedUser.img_url || '';
               updatePreview(storedUser.img_url || '');
               passwordInput.value = '';
+              if (window.updateSidebarAvatar) {
+                window.updateSidebarAvatar(storedUser.img_url);
+              }
               showToast('Dəyişikliklər sıfırlandı.', 'success');
               return;
             } catch (error) {
@@ -242,6 +222,9 @@
           imageInput.value = '';
           updatePreview('');
           passwordInput.value = '';
+          if (window.updateSidebarAvatar) {
+            window.updateSidebarAvatar();
+          }
           showToast('Form sıfırlandı.', 'success');
         });
 
@@ -275,6 +258,10 @@
 
           if (password) {
             sessionStorage.setItem('profile_temp_password', password);
+          }
+
+          if (window.updateSidebarAvatar) {
+            window.updateSidebarAvatar(imageUrl);
           }
 
           showToast('Profil məlumatları yeniləndi.', 'success');

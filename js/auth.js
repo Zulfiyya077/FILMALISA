@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
           
           setTimeout(() => {
             window.location.href = "Clientlogin.html";
-          }, 2000);
+          }, 1000);
         } else {
           const errorMessage = data.message || "Qeydiyyat uğursuzdur";
           if (errorMessage.includes("already registered") || errorMessage.includes("already in use")) {

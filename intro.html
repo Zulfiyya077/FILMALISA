@@ -734,40 +734,41 @@
     </div>
 
     <script>
-        // Səhifə yükləndikdən sonra
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', () => {
+            sessionStorage.setItem('introPlayed', 'true');
+
             const introSound = document.getElementById('introSound');
-            
-            // Səsi oynatmaq üçün bir az gözləyin
+
             setTimeout(() => {
-                introSound.volume = 0.7; // Səs səviyyəsi (0.0 - 1.0)
-                
-                // Səsi oynatmağa çalış
+                introSound.volume = 0.7;
+
                 const playPromise = introSound.play();
-                
+
                 if (playPromise !== undefined) {
                     playPromise
                         .then(() => {
-                            console.log('Intro səsi oynadılır...');
+                            console.info('Intro audio started');
                         })
-                        .catch(error => {
-                            console.log('Səs avtomatik oynadıla bilmədi:', error);
-                            // Əgər autoplay işləməzsə, kliklə oynada bilərik
-                            document.body.addEventListener('click', () => {
-                                introSound.play();
-                            }, { once: true });
+                        .catch((error) => {
+                            console.warn('Audio autoplay was blocked:', error);
+                            document.body.addEventListener(
+                                'click',
+                                () => {
+                                    introSound.play();
+                                },
+                                { once: true }
+                            );
                         });
                 }
-            }, 500); // 0.5 saniyə sonra səs başlasın
-            
-            // 7 saniyə sonra ana səhifəyə keçid
+            }, 500);
+
             const redirectTarget = '/index.html';
             const redirectTimer = setTimeout(() => {
-              window.location.replace(redirectTarget);
+                window.location.replace(redirectTarget);
             }, 6000);
 
             window.addEventListener('beforeunload', () => {
-              clearTimeout(redirectTimer);
+                clearTimeout(redirectTimer);
             });
         });
     </script>

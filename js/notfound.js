@@ -1,10 +1,3 @@
-const ADMIN_EMAILS = ['admin@admin.com'];
-
-function isAdminEmail(email) {
-  if (!email) return false;
-  return ADMIN_EMAILS.includes(email.toLowerCase());
-}
-
 document.addEventListener("DOMContentLoaded", function () {
   const goHomeButton = document.querySelector('.btn');
   const container = document.querySelector('.container');
@@ -41,11 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Redirect function
   function redirectToHome() {
     const accessToken = sessionStorage.getItem('access_token');
-    const email = sessionStorage.getItem('user_email');
-
-    if (accessToken && isAdminEmail(email)) {
-      window.location.href = '../admin/dashboard.html';
-    } else if (accessToken) {
+    if (accessToken) {
       window.location.href = '../client/home.html';
     } else {
       window.location.href = '../index.html';

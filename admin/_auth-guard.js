@@ -1,22 +1,19 @@
 (function() {
   const ADMIN_LOGIN_PATH = '../auth/adminlogin.html';
   const ADMIN_DASHBOARD_PATH = '../admin/dashboard.html';
-  const ADMIN_EMAILS = ['admin@admin.com'];
 
-  function isAdminSession() {
-    const token = sessionStorage.getItem('access_token');
-    const email = (sessionStorage.getItem('user_email') || '').toLowerCase();
-    return Boolean(token && ADMIN_EMAILS.includes(email));
+  function hasAdminSession() {
+    return Boolean(sessionStorage.getItem('access_token'));
   }
 
   function ensureAdminAuthenticated() {
-    if (!isAdminSession()) {
+    if (!hasAdminSession()) {
       window.location.replace(ADMIN_LOGIN_PATH);
     }
   }
 
   function redirectIfAdminAuthenticated() {
-    if (isAdminSession()) {
+    if (hasAdminSession()) {
       window.location.replace(ADMIN_DASHBOARD_PATH);
     }
   }

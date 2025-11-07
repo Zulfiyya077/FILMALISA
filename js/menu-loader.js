@@ -1,7 +1,7 @@
 const MENU_DEFAULTS = {
-  defaultAvatar: '../assets/images/1651258516656 1.png',
-  menuPath: '../includes/menu.html',
-  footerPath: '../includes/footer.html'
+  defaultAvatar: '/assets/images/1651258516656 1.png',
+  menuPath: '/includes/menu.html',
+  footerPath: '/includes/footer.html'
 };
 
 function getStoredUser() {
@@ -10,7 +10,7 @@ function getStoredUser() {
     if (!raw) return null;
     return JSON.parse(raw);
   } catch (error) {
-    console.warn('İstifadəçi məlumatları oxunmadı:', error);
+    console.warn('User data could not be parsed:', error);
     return null;
   }
 }
@@ -61,7 +61,7 @@ function loadFooter(container) {
     .then((html) => {
       container.innerHTML = html;
     })
-    .catch((error) => console.error('Footer yüklənmə xətası:', error));
+    .catch((error) => console.error('Footer failed to load:', error));
 }
 
 function loadMenu(container, activePage) {
@@ -74,7 +74,7 @@ function loadMenu(container, activePage) {
       const storedUser = getStoredUser();
       applyAvatar(container, storedUser?.img_url);
     })
-    .catch((error) => console.error('Menu yüklənmə xətası:', error));
+    .catch((error) => console.error('Menu failed to load:', error));
 }
 
 function loadMenuAndFooter(options = {}) {

@@ -97,7 +97,7 @@ async function fetchMovies() {
 
         if (movies.length === 0) {
             if (tableBody) {
-                tableBody.innerHTML = '<tr><td colspan="7">Film tapılmadı.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="7">No movies found.</td></tr>';
             }
             return;
         }
@@ -105,9 +105,9 @@ async function fetchMovies() {
         displayTable(movies, tableBody, rowsPerPage, currentPage);
         setupPagination(movies, paginationContainer, rowsPerPage);
     } catch (error) {
-        console.error('Filmlər yüklənərkən xəta:', error);
+        console.error('Error while loading movies:', error);
         if (tableBody) {
-            tableBody.innerHTML = `<tr><td colspan="7">Xəta: ${error.message}</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="7">Error: ${error.message}</td></tr>`;
         }
     }
 }
@@ -124,7 +124,7 @@ function displayTable(items, tableBody, rowsPerPage, page) {
         const newRow = document.createElement('tr');
 
         const imdbValue = isNaN(parseFloat(movie.imdb)) ? 'N/A' : movie.imdb;
-        const categoryValue = movie.category?.name || 'Naməlum Kategoriya';
+        const categoryValue = movie.category?.name || 'Unknown category';
 
         newRow.innerHTML = `
             <td>${start + index + 1}</td>
@@ -132,13 +132,13 @@ function displayTable(items, tableBody, rowsPerPage, page) {
                 <img
                     src="${movie.cover_url || defaultImage}"
                     style="width: 29px; height: 39px; object-fit: cover; border-radius: 4px;"
-                    alt="Film Posteri"
+                    alt="Movie poster"
                     class="image-default-1"
                     onerror="this.onerror=null;if(this.src!=='${defaultImage}'){this.src='${defaultImage}';}"
                 />
             </td>
-            <td>${movie.title || 'Naməlum Başlıq'}</td>
-            <td>${movie.overview ? (movie.overview.substring(0, 80) + '...') : 'Təsvir yoxdur'}</td>
+            <td>${movie.title || 'Untitled'}</td>
+            <td>${movie.overview ? (movie.overview.substring(0, 80) + '...') : 'No description'}</td>
             <td>${categoryValue}</td>
             <td>${imdbValue}</td>
             <td class="actions">
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                throw new Error(`API sorğusu uğursuz: ${response.status}`);
+                throw new Error(`API request failed: ${response.status}`);
             }
 
             const data = await response.json();
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const actors = data.data;
 
             if (!actors || !Array.isArray(actors)) {
-                throw new Error('Aktör məlumatı massiv deyil.');
+                throw new Error('Actor data is not an array.');
             }
 
             if (dropdownItemsDiv.tagName === 'SELECT') {
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-            console.error('Aktörlər yüklənərkən xəta:', error);
+            console.error('Error while loading actors:', error);
         }
     }
 
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                throw new Error(`API sorğusu uğursuz: ${response.status}`);
+                throw new Error(`API request failed: ${response.status}`);
             }
 
             const data = await response.json();
@@ -349,11 +349,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const categories = data.data;
 
             if (!categories || !Array.isArray(categories)) {
-                throw new Error('Kategoriyalar massiv deyil.');
+                throw new Error('Categories are not an array.');
             }
 
             if (categoryItemsDiv.tagName === 'SELECT') {
-                categoryItemsDiv.innerHTML = '<option value="">Kategoriya seçin</option>' + 
+                categoryItemsDiv.innerHTML = '<option value="">Select category</option>' + 
                     categories.map(category => 
                         `<option value="${category.id}">${category.name}</option>`
                     ).join('');
@@ -366,15 +366,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const div = document.createElement('div');
                     div.className = 'category-item';
-                    div.textContent = category.name || 'Naməlum Kategoriya';
-                    div.setAttribute('data-value', category.name || 'Naməlum');
+                    div.textContent = category.name || 'Unknown category';
+                    div.setAttribute('data-value', category.name || 'Unknown');
                     div.setAttribute('data-id', category.id);
 
                     div.addEventListener('click', () => {
-                        if (categorySpan) categorySpan.textContent = category.name || 'Naməlum Kategoriya';
+                        if (categorySpan) categorySpan.textContent = category.name || 'Unknown category';
                         document.querySelectorAll('.category-item.selected').forEach((selected) => selected.classList.remove('selected'));
                         div.classList.add('selected');
-                        if (categoryToggle) categoryToggle.textContent = category.name || 'Naməlum Kategoriya';
+                        if (categoryToggle) categoryToggle.textContent = category.name || 'Unknown category';
                         if (categoryItems) categoryItems.classList.remove('visible');
                     });
 
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-            console.error('Kategoriyalar yüklənərkən xəta:', error);
+            console.error('Error while loading categories:', error);
         }
     }
 
@@ -530,25 +530,25 @@ async function createMovie() {
 
         if (!response.ok) {
             const errorResponse = await response.json();
-            console.error('Xəta cavabı:', errorResponse);
+            console.error('Error response:', errorResponse);
             if (errorResponse.message && Array.isArray(errorResponse.message)) {
-                console.error('Validasiya xətaları:', errorResponse.message);
+                console.error('Validation errors:', errorResponse.message);
                 errorResponse.message.forEach((msg, index) => {
                     console.error(`  ${index + 1}. ${msg}`);
                 });
             }
-            showToast('Xəta: ' + (errorResponse.message || 'Naməlum xəta'), 'error');
+            showToast('Error: ' + (errorResponse.message || 'Unknown error'), 'error');
             isSubmitting = false;
             return;
         }
 
         const responseData = await response.json();
-        showToast('Film uğurla yaradıldı!', 'success');
+        showToast('Movie created successfully!', 'success');
         fetchMovies();
         closeModal();
     } catch (error) {
-        console.error('Film yaradılarkən xəta:', error);
-        showToast('Xəta: ' + error.message, 'error');
+        console.error('Error while creating movie:', error);
+        showToast('Error: ' + error.message, 'error');
     } finally {
         isSubmitting = false;
     }
@@ -557,7 +557,7 @@ async function createMovie() {
 // Film redaktə et
 function editMovie(movieId) {
     if (!movieId) {
-        console.error('Yanlış film ID:', movieId);
+        console.error('Invalid movie ID:', movieId);
         return;
     }
 
@@ -596,8 +596,8 @@ async function fetchMovieDetails(movieId) {
 
         fillFormWithMovieDetails(movie);
     } catch (error) {
-        console.error('Film detalları yüklənərkən xəta:', error);
-        showToast('Film məlumatları yüklənə bilmədi', 'error');
+        console.error('Error while loading movie details:', error);
+        showToast('Movie details could not be loaded', 'error');
     }
 }
 
@@ -622,7 +622,8 @@ function fillFormWithMovieDetails(movie) {
     }
 
     if (categoryToggle) {
-        categoryToggle.textContent = movie.category ? movie.category.name : 'Kategoriya seçilmədi';
+        const categoryToggle = document.getElementById('categoryDropdown');
+        categoryToggle.textContent = movie.category ? movie.category.name : 'No category selected';
 
         const categoryItems = document.querySelectorAll('#category-items .category-item');
         categoryItems.forEach((item) => {
@@ -638,7 +639,7 @@ function fillFormWithMovieDetails(movie) {
     if (dropdownToggle) {
         const selectedActors = movie.actors
             ? movie.actors.map((actor) => `${actor.name} ${actor.surname}`).join(', ')
-            : 'Aktörlər seçilmədi';
+            : 'No actors selected';
         dropdownToggle.textContent = selectedActors;
 
         const dropdownItems = document.querySelectorAll('#dropdown-items .dropdown-item');
@@ -738,18 +739,18 @@ async function updateMovie() {
 
         if (!response.ok) {
             const errorResponse = await response.json();
-            console.error('API xəta cavabı:', errorResponse);
-            showToast('Xəta: ' + (errorResponse.message || 'Naməlum xəta'), 'error');
+            console.error('API error response:', errorResponse);
+            showToast('Error: ' + (errorResponse.message || 'Unknown error'), 'error');
             isSubmitting = false;
             return;
         }
 
-        showToast('Film uğurla yeniləndi!', 'success');
+        showToast('Movie updated successfully!', 'success');
         fetchMovies();
         closeModal();
     } catch (error) {
-        console.error('Yeniləmə zamanı xəta:', error);
-        showToast('Xəta: ' + error.message, 'error');
+        console.error('Error during update:', error);
+        showToast('Error: ' + error.message, 'error');
     } finally {
         isSubmitting = false;
     }
@@ -795,18 +796,18 @@ if (yesBtn) {
 
             if (!response.ok) {
                 const errorResponse = await response.json();
-                console.error('Xəta cavabı:', errorResponse);
-                showToast('Film silinə bilmədi', 'error');
+                console.error('Error response:', errorResponse);
+                showToast('Movie could not be deleted', 'error');
                 closeRemoveModal();
                 return;
             }
 
-            showToast('Film uğurla silindi!', 'success');
+            showToast('Movie deleted successfully!', 'success');
             closeRemoveModal();
             fetchMovies();
         } catch (error) {
-            console.error('Film silinərkən xəta:', error);
-            showToast('Xəta: ' + error.message, 'error');
+            console.error('Error while deleting the movie:', error);
+            showToast('Error: ' + error.message, 'error');
             closeRemoveModal();
         }
     });

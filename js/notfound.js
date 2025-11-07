@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const countdownElement = document.createElement('p');
   countdownElement.id = 'countdown';
   countdownElement.style.cssText = 'color: #9a9a9a; margin-top: 20px; font-size: 14px;';
-  countdownElement.textContent = `Avtomatik olaraq ana səhifəyə ${countdown} saniyə sonra yönləndiriləcəksiniz...`;
+  countdownElement.textContent = `You will be redirected to the homepage in ${countdown} seconds...`;
   
   // Insert countdown after the description paragraph
   const descriptionP = container.querySelector('p');
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
   countdownInterval = setInterval(function() {
     countdown--;
     if (countdownElement) {
-      countdownElement.textContent = `Avtomatik olaraq ana səhifəyə ${countdown} saniyə sonra yönləndiriləcəksiniz...`;
+      countdownElement.textContent = `You will be redirected to the homepage in ${countdown} seconds...`;
     }
     
     if (countdown <= 0) {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       clearInterval(countdownInterval);
       if (countdownElement) {
-        countdownElement.textContent = 'Yönləndirilir...';
+        countdownElement.textContent = 'Redirecting...';
       }
       redirectToHome();
     });

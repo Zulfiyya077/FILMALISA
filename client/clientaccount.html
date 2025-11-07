@@ -1,77 +1,285 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Profile - Filmalisa</title>
+    <title>Hesab Məlumatları - FILMALISA</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/menu.css" />
     <link rel="stylesheet" href="../css/clientaccount.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
   </head>
   <body>
-    <div class="container">
-      <div class="content">
+    <div id="menu-container"></div>
+
+    <main class="profile-main">
+      <section class="profile-card">
         <div class="profile-photo">
-          <img src="../assets/images/1651258516656 1.png" alt="Profile Image" />
+          <img
+            src="../assets/images/1651258516656 1.png"
+            alt="Profil şəkli"
+            id="profileImagePreview"
+          />
+        </div>
+        <div style="text-align: center;">
+          <h1 class="profile-title">Profil məlumatları</h1>
+          <p class="profile-subtitle">
+            Şəxsi məlumatlarınızı yeniləyin və hesabınızı təhlükəsiz saxlayın.
+          </p>
         </div>
 
-        <form>
-          <div class="input-box">
+        <form class="profile-form" id="profileForm" novalidate>
+          <div class="profile-input">
             <img
               src="../assets/icons/lefticon2.svg"
-              class="icon-left"
               alt="icon"
+              class="icon-left"
             />
-            <input type="text" placeholder="profile image url" />
+            <input
+              type="url"
+              id="profileImage"
+              placeholder="Profil şəkli URL"
+              autocomplete="off"
+            />
             <img
               src="../assets/icons/righticon.svg"
-              class="icon-right"
               alt="icon"
+              class="icon-right"
+              id="profileImageClear"
             />
           </div>
 
-          <div class="input-box">
+          <div class="profile-input">
             <img
               src="../assets/icons/lefticon2.svg"
-              class="icon-left"
               alt="icon"
+              class="icon-left"
             />
-            <input type="text" placeholder="full name" />
+            <input
+              type="text"
+              id="fullName"
+              placeholder="Ad və soyad"
+              autocomplete="name"
+              required
+            />
             <img
               src="../assets/icons/righticon.svg"
-              class="icon-right"
               alt="icon"
+              class="icon-right"
+              style="opacity: 0.4; cursor: default;"
             />
           </div>
 
-          <div class="input-box">
+          <div class="profile-input">
             <img
               src="../assets/icons/lefticon1.svg"
-              class="icon-left"
               alt="icon"
+              class="icon-left"
             />
             <input
               type="email"
-              placeholder="email"
-              value="rahimlisarkhan@gmail.com"
+              id="email"
+              placeholder="Email"
+              autocomplete="email"
+              readonly
             />
-          </div>
-
-          <div class="input-box">
-            <img
-              src="../assets/icons/lefticon2.svg"
-              class="icon-left"
-              alt="icon"
-            />
-            <input type="password" placeholder="password" />
             <img
               src="../assets/icons/righticon.svg"
-              class="icon-right"
               alt="icon"
+              class="icon-right"
+              style="opacity: 0.4; cursor: default;"
             />
           </div>
 
-          <button type="submit" class="btn">Save</button>
+          <div class="profile-input">
+            <img
+              src="../assets/icons/lefticon2.svg"
+              alt="icon"
+              class="icon-left"
+            />
+            <input
+              type="password"
+              id="password"
+              placeholder="Yeni şifrə (istəyə bağlı)"
+              autocomplete="new-password"
+            />
+            <img
+              src="../assets/icons/righticon.svg"
+              alt="Şifrəni göstər"
+              class="icon-right"
+              id="togglePasswordVisibility"
+            />
+          </div>
+
+          <p class="profile-hint">
+            Şifrə ən azı 6 simvol olmalıdır. Şəkil linki daxil etdikdə yeni profil
+            şəkli avtomatik olaraq önizlənəcək.
+          </p>
+
+          <div class="profile-actions">
+            <button type="submit" class="profile-submit">Yadda saxla</button>
+            <button type="button" class="profile-submit profile-reset" id="profileReset">
+              Dəyişikləri sıfırla
+            </button>
+          </div>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+      const menuContainer = document.getElementById('menu-container');
+      const footerContainer = document.getElementById('footer-container');
+
+      const showToast = (message, type = 'success') => {
+        Toastify({
+          text: message,
+          duration: 2500,
+          gravity: 'top',
+          position: 'right',
+          style: {
+            background: type === 'success' ? '#27ae60' : '#e74c3c'
+          }
+        }).showToast();
+      };
+
+      fetch('../includes/menu.html')
+        .then((response) => response.text())
+        .then((data) => {
+          menuContainer.innerHTML = data;
+
+          setTimeout(() => {
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach((item) => {
+              item.classList.remove('active');
+              if (item.href && item.href.includes('clientaccount.html')) {
+                item.classList.add('active');
+              }
+            });
+          }, 100);
+        })
+        .catch((error) => console.error('Menu yüklənmə xətası:', error));
+
+      fetch('../includes/footer.html')
+        .then((response) => response.text())
+        .then((data) => {
+          footerContainer.innerHTML = data;
+        })
+        .catch((error) => console.error('Footer yüklənmə xətası:', error));
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('profileForm');
+        const imageInput = document.getElementById('profileImage');
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const previewImage = document.getElementById('profileImagePreview');
+        const resetButton = document.getElementById('profileReset');
+        const clearImageButton = document.getElementById('profileImageClear');
+        const togglePassword = document.getElementById('togglePasswordVisibility');
+
+        const storedUserRaw = sessionStorage.getItem('user_data');
+        if (storedUserRaw) {
+          try {
+            const storedUser = JSON.parse(storedUserRaw);
+            if (storedUser.full_name) fullNameInput.value = storedUser.full_name;
+            if (storedUser.email) emailInput.value = storedUser.email;
+            if (storedUser.img_url) {
+              imageInput.value = storedUser.img_url;
+              previewImage.src = storedUser.img_url;
+            }
+          } catch (error) {
+            console.warn('İstifadəçi məlumatlarını oxumaq mümkün olmadı:', error);
+          }
+        }
+
+        const updatePreview = (value) => {
+          if (!value) {
+            previewImage.src = '../assets/images/1651258516656 1.png';
+            return;
+          }
+          previewImage.src = value;
+        };
+
+        imageInput.addEventListener('input', (event) => {
+          updatePreview(event.target.value.trim());
+        });
+
+        clearImageButton.addEventListener('click', () => {
+          imageInput.value = '';
+          updatePreview('');
+        });
+
+        togglePassword.addEventListener('click', () => {
+          const isPassword = passwordInput.getAttribute('type') === 'password';
+          passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        });
+
+        resetButton.addEventListener('click', () => {
+          const storedUserRawInner = sessionStorage.getItem('user_data');
+          if (storedUserRawInner) {
+            try {
+              const storedUser = JSON.parse(storedUserRawInner);
+              fullNameInput.value = storedUser.full_name || '';
+              emailInput.value = storedUser.email || '';
+              imageInput.value = storedUser.img_url || '';
+              updatePreview(storedUser.img_url || '');
+              passwordInput.value = '';
+              showToast('Dəyişikliklər sıfırlandı.', 'success');
+              return;
+            } catch (error) {
+              console.warn('İstifadəçi məlumatları sıfırlanmadı:', error);
+            }
+          }
+
+          fullNameInput.value = '';
+          imageInput.value = '';
+          updatePreview('');
+          passwordInput.value = '';
+          showToast('Form sıfırlandı.', 'success');
+        });
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const fullName = fullNameInput.value.trim();
+          const email = emailInput.value.trim();
+          const imageUrl = imageInput.value.trim();
+          const password = passwordInput.value.trim();
+
+          if (!fullName || fullName.length < 2) {
+            showToast('Ad və soyad ən azı 2 simvol olmalıdır.', 'error');
+            fullNameInput.focus();
+            return;
+          }
+
+          if (password && password.length < 6) {
+            showToast('Şifrə ən azı 6 simvol olmalıdır.', 'error');
+            passwordInput.focus();
+            return;
+          }
+
+          const storedUser = {
+            full_name: fullName,
+            email,
+            img_url: imageUrl || null
+          };
+
+          sessionStorage.setItem('user_data', JSON.stringify(storedUser));
+
+          if (password) {
+            sessionStorage.setItem('profile_temp_password', password);
+          }
+
+          showToast('Profil məlumatları yeniləndi.', 'success');
+        });
+      });
+    </script>
   </body>
 </html>

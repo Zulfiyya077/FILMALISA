@@ -156,7 +156,7 @@
 
       const AVATAR_BASE_URL = 'https://api.dicebear.com/7.x/initials/svg?backgroundColor=58209d,241f36&radius=50&seed=';
 
-      const generateAvatarUrl = (name, email) => {
+      const buildProfileAvatar = (name, email) => {
         const seed = (name && name.trim()) || (email && email.trim()) || 'FILMALISA User';
         return `${AVATAR_BASE_URL}${encodeURIComponent(seed)}`;
       };
@@ -176,7 +176,7 @@
         const clearImageButton = document.getElementById('profileImageClear');
         const togglePassword = document.getElementById('togglePasswordVisibility');
 
-        const getFallbackAvatar = (name, email) => generateAvatarUrl(name || fullNameInput.value, email || emailInput.value);
+        const getFallbackAvatar = (name, email) => buildProfileAvatar(name || fullNameInput.value, email || emailInput.value);
 
         const storedUserRaw = sessionStorage.getItem('user_data');
         if (storedUserRaw) {
@@ -184,7 +184,7 @@
             const storedUser = JSON.parse(storedUserRaw);
             if (storedUser.full_name) fullNameInput.value = storedUser.full_name;
             if (storedUser.email) emailInput.value = storedUser.email;
-            const resolvedImage = (storedUser.img_url && storedUser.img_url.trim()) || generateAvatarUrl(storedUser.full_name, storedUser.email);
+            const resolvedImage = (storedUser.img_url && storedUser.img_url.trim()) || buildProfileAvatar(storedUser.full_name, storedUser.email);
             imageInput.value = resolvedImage;
             previewImage.src = resolvedImage;
             storedUser.img_url = resolvedImage;
@@ -195,7 +195,7 @@
         }
 
         const updatePreview = (value) => {
-          const fallback = generateAvatarUrl(fullNameInput.value, emailInput.value);
+          const fallback = buildProfileAvatar(fullNameInput.value, emailInput.value);
           const finalValue = value && value.trim() ? value.trim() : fallback;
           previewImage.src = finalValue;
           previewImage.onerror = function () {
@@ -237,7 +237,7 @@
               const storedUser = JSON.parse(storedUserRawInner);
               fullNameInput.value = storedUser.full_name || '';
               emailInput.value = storedUser.email || '';
-              const resolvedImage = (storedUser.img_url && storedUser.img_url.trim()) || generateAvatarUrl(storedUser.full_name, storedUser.email);
+              const resolvedImage = (storedUser.img_url && storedUser.img_url.trim()) || buildProfileAvatar(storedUser.full_name, storedUser.email);
               imageInput.value = resolvedImage;
               updatePreview(resolvedImage);
               passwordInput.value = '';
@@ -256,7 +256,7 @@
           updatePreview('');
           passwordInput.value = '';
           if (window.updateSidebarAvatar) {
-            window.updateSidebarAvatar(generateAvatarUrl('', emailInput.value));
+            window.updateSidebarAvatar(buildProfileAvatar('', emailInput.value));
           }
           showToast('Form reset.', 'success');
         });
@@ -281,7 +281,7 @@
             return;
           }
 
-          const finalImageUrl = imageUrl || generateAvatarUrl(fullName, email);
+          const finalImageUrl = imageUrl || buildProfileAvatar(fullName, email);
 
           const storedUser = {
             full_name: fullName,

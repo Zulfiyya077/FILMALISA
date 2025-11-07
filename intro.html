@@ -760,12 +760,12 @@
                             );
                         });
                 }
-            }, 500);
+            }, 300);
 
             const redirectTarget = '/index.html';
             const redirectTimer = setTimeout(() => {
                 window.location.replace(redirectTarget);
-            }, 8000);
+            }, 9000);
 
             window.addEventListener('beforeunload', () => {
                 clearTimeout(redirectTimer);

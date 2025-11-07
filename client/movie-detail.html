@@ -150,14 +150,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="../js/movie-detail.js"></script>
+    <script src="../js/menu-loader.js"></script>
     <script>
-        // Load menu component
-        fetch('../includes/menu.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('menu-container').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading menu:', error));
+        loadMenuAndFooter({ activePage: 'home', includeFooter: false });
     </script>
 </body>
 </html>

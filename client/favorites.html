@@ -13,33 +13,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
-    <div class="page-container">
-        <!-- Sidebar Menu -->
-        <aside class="sidebar-menu">
-            <div class="sidebar-logo">
-                <img src="../images/Animate2.svg" alt="FILMALISA" class="logo-image">
-            </div>
-            
-            <nav class="sidebar-nav">
-                <a href="home.html" class="sidebar-item">
-                    <img src="../images/Icon button.svg" alt="Home" class="sidebar-icon">
-                </a>
-                
-                <a href="search.html" class="sidebar-item">
-                    <img src="../images/Icon button (1).svg" alt="Search" class="sidebar-icon">
-                </a>
-                
-                <a href="clientaccount.html" class="sidebar-item">
-                    <img src="../images/Icon button (2).svg" alt="Profile" class="sidebar-icon">
-                </a>
-                
-                <a href="favorites.html" class="sidebar-item active">
-                    <img src="../images/Icon button (3).svg" alt="Favorites" class="sidebar-icon">
-                </a>
-            </nav>
-        </aside>
+    <div id="menu-container"></div>
 
-        <!-- Main Content -->
+    <div class="page-container">
         <main class="main-content">
             <div class="favorites-container">
                 <div class="favorites-header">
@@ -54,7 +30,13 @@
         </main>
     </div>
 
+    <div id="footer-container"></div>
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/menu-loader.js"></script>
+    <script>
+        loadMenuAndFooter({ activePage: 'favorites' });
+    </script>
     <script src="../js/favorites.js"></script>
 </body>
 </html>

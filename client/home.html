@@ -78,32 +78,9 @@
     <div id="footer-container"></div>
 
     <script src="../js/homepage.js"></script>
+    <script src="../js/menu-loader.js"></script>
     <script>
-        // Load menu component
-        fetch('../includes/menu.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('menu-container').innerHTML = data;
-                
-                setTimeout(() => {
-                    const sidebarItems = document.querySelectorAll('.sidebar-item');
-                    sidebarItems.forEach(item => {
-                        item.classList.remove('active');
-                        if (item.href.includes('home.html')) {
-                            item.classList.add('active');
-                        }
-                    });
-                }, 100);
-            })
-            .catch(error => console.error('Error loading menu:', error));
-
-        // Load footer component
-        fetch('../includes/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading footer:', error));
+        loadMenuAndFooter({ activePage: 'home' });
     </script>
 </body>
 </html>

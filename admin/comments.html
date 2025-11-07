@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comments | FILMALISA Admin</title>
+    <script>
+        (function() {
+            const token = sessionStorage.getItem('access_token');
+            const userType = sessionStorage.getItem('user_type');
+            if (!token || userType !== 'admin') {
+                window.location.replace('../auth/adminlogin.html');
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

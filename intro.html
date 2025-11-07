@@ -761,9 +761,14 @@
             }, 500); // 0.5 saniyə sonra səs başlasın
             
             // 7 saniyə sonra ana səhifəyə keçid
-            setTimeout(() => {
-                window.location.href = 'index.html'; // və ya 'home.html'
-            }, 7000);
+            const redirectTarget = '/index.html';
+            const redirectTimer = setTimeout(() => {
+              window.location.replace(redirectTarget);
+            }, 6000);
+
+            window.addEventListener('beforeunload', () => {
+              clearTimeout(redirectTimer);
+            });
         });
     </script>
 </body>

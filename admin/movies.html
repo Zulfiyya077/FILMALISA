@@ -8,8 +8,9 @@
     <script>
         (function() {
             const token = sessionStorage.getItem('access_token');
-            const userType = sessionStorage.getItem('user_type');
-            if (!token || userType !== 'admin') {
+            const email = (sessionStorage.getItem('user_email') || '').toLowerCase();
+            const allowedAdmins = ['admin@admin.com'];
+            if (!token || !allowedAdmins.includes(email)) {
                 window.location.replace('../auth/adminlogin.html');
             }
         })();

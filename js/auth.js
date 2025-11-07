@@ -116,18 +116,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (response.ok && data.result === true) {
+          const profileEmail = (data.data?.profile?.email || email || '').toLowerCase();
+
           if (data.data && data.data.tokens && data.data.tokens.access_token) {
             sessionStorage.setItem('access_token', data.data.tokens.access_token);
-            sessionStorage.setItem('user_type', 'client');
             if (data.data.profile) {
               sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
             }
           } else if (data.data && data.data.access_token) {
             sessionStorage.setItem('access_token', data.data.access_token);
-            sessionStorage.setItem('user_type', 'client');
             if (data.data.profile) {
               sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
             }
+          }
+
+          if (profileEmail) {
+            sessionStorage.setItem('user_email', profileEmail);
           }
 
           showToast("Signed in successfully", 'success');
@@ -239,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (response.ok && data.result === true) {
-          sessionStorage.setItem("userRegistered", email);
+          sessionStorage.setItem("userRegistered", JSON.stringify(requestBody.email));
           showToast("Registration successful. Redirecting to sign in...", 'success');
           
           setTimeout(() => {

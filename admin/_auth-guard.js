@@ -1,20 +1,21 @@
 const ADMIN_LOGIN_PATH = '../auth/adminlogin.html';
 const ADMIN_DASHBOARD_PATH = '../admin/dashboard.html';
+const ADMIN_EMAILS = ['admin@admin.com'];
+
+function isAdminSession() {
+  const token = sessionStorage.getItem('access_token');
+  const email = (sessionStorage.getItem('user_email') || '').toLowerCase();
+  return Boolean(token && ADMIN_EMAILS.includes(email));
+}
 
 function ensureAdminAuthenticated() {
-  const token = sessionStorage.getItem('access_token');
-  const userType = sessionStorage.getItem('user_type');
-
-  if (!token || userType !== 'admin') {
+  if (!isAdminSession()) {
     window.location.replace(ADMIN_LOGIN_PATH);
   }
 }
 
 function redirectIfAdminAuthenticated() {
-  const token = sessionStorage.getItem('access_token');
-  const userType = sessionStorage.getItem('user_type');
-
-  if (token && userType === 'admin') {
+  if (isAdminSession()) {
     window.location.replace(ADMIN_DASHBOARD_PATH);
   }
 }
@@ -26,7 +27,7 @@ function setupAdminLogout() {
   logoutElement.addEventListener('click', (event) => {
     event.preventDefault();
     sessionStorage.removeItem('access_token');
-    sessionStorage.removeItem('user_type');
+    sessionStorage.removeItem('user_email');
     sessionStorage.removeItem('user_data');
     window.location.replace(ADMIN_LOGIN_PATH);
   });

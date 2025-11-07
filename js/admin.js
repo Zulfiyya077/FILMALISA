@@ -21,12 +21,29 @@ const apiURLCategories = 'https://api.sarkhanrahimli.dev/api/filmalisa/admin/cat
 const apiURLMovie = 'https://api.sarkhanrahimli.dev/api/filmalisa/movies';
 const apiURLActors = 'https://api.sarkhanrahimli.dev/api/filmalisa/admin/actors';
 const apiURLMovieCreate = 'https://api.sarkhanrahimli.dev/api/filmalisa/admin/movie';
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6MTAzLCJpYXQiOjE3NjA1MTQ4ODMsImV4cCI6MTc5MTYxODg4M30.9wtCEnAhwQ8f_LH9osr4KMeHu31QXRwJgcmSqfrJxNA';
+const ADMIN_EMAILS = ['admin@admin.com'];
 
-// Token funksiyası
+function isAdminEmail(email) {
+    if (!email) return false;
+    return ADMIN_EMAILS.includes(email.toLowerCase());
+}
+
 function getToken() {
-    const userToken = sessionStorage.getItem('access_token');
-    return userToken || ACCESS_TOKEN;
+    const token = sessionStorage.getItem('access_token');
+    const email = sessionStorage.getItem('user_email');
+
+    if (!token || !isAdminEmail(email)) {
+        showToast('Your session has expired. Please sign in again.', 'error');
+        setTimeout(() => {
+            sessionStorage.removeItem('access_token');
+            sessionStorage.removeItem('user_email');
+            sessionStorage.removeItem('user_data');
+            window.location.replace('../auth/adminlogin.html');
+        }, 800);
+        return null;
+    }
+
+    return token;
 }
 
 // Element seçiciləri
@@ -80,6 +97,9 @@ function showToast(message, type = 'success') {
 async function fetchMovies() {
     try {
         const token = getToken();
+        if (!token) {
+            return;
+        }
         const response = await fetch(apiURLMovie, {
             method: 'GET',
             headers: {
@@ -223,6 +243,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function populateActors() {
         try {
             const token = getToken();
+            if (!token) {
+                return;
+            }
             const response = await fetch(apiURLActors, {
                 method: 'GET',
                 headers: {
@@ -264,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-            console.error('Error while loading actors:', error);
+            showToast('Actors could not be loaded.', 'error');
         }
     }
 
@@ -326,6 +349,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function populateCategories() {
         try {
             const token = getToken();
+            if (!token) {
+                return;
+            }
             const response = await fetch(apiURLCategories, {
                 method: 'GET',
                 headers: {
@@ -382,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-            console.error('Error while loading categories:', error);
+            showToast('Categories could not be loaded.', 'error');
         }
     }
 
@@ -519,6 +545,10 @@ async function createMovie() {
 
     try {
         const token = getToken();
+        if (!token) {
+            isSubmitting = false;
+            return;
+        }
         const response = await fetch(apiURLMovieCreate, {
             method: 'POST',
             headers: {
@@ -529,14 +559,7 @@ async function createMovie() {
         });
 
         if (!response.ok) {
-            const errorResponse = await response.json();
-            console.error('Error response:', errorResponse);
-            if (errorResponse.message && Array.isArray(errorResponse.message)) {
-                console.error('Validation errors:', errorResponse.message);
-                errorResponse.message.forEach((msg, index) => {
-                    console.error(`  ${index + 1}. ${msg}`);
-                });
-            }
+            const errorResponse = await response.json().catch(() => ({}));
             showToast('Error: ' + (errorResponse.message || 'Unknown error'), 'error');
             isSubmitting = false;
             return;
@@ -547,7 +570,6 @@ async function createMovie() {
         fetchMovies();
         closeModal();
     } catch (error) {
-        console.error('Error while creating movie:', error);
         showToast('Error: ' + error.message, 'error');
     } finally {
         isSubmitting = false;
@@ -557,7 +579,6 @@ async function createMovie() {
 // Film redaktə et
 function editMovie(movieId) {
     if (!movieId) {
-        console.error('Invalid movie ID:', movieId);
         return;
     }
 
@@ -574,6 +595,9 @@ function openEditModal() {
 async function fetchMovieDetails(movieId) {
     try {
         const token = getToken();
+        if (!token) {
+            return;
+        }
         const apiUrl = `${apiURLMovie}/${movieId}`;
 
         const response = await fetch(apiUrl, {
@@ -596,7 +620,6 @@ async function fetchMovieDetails(movieId) {
 
         fillFormWithMovieDetails(movie);
     } catch (error) {
-        console.error('Error while loading movie details:', error);
         showToast('Movie details could not be loaded', 'error');
     }
 }
@@ -728,6 +751,10 @@ async function updateMovie() {
 
     try {
         const token = getToken();
+        if (!token) {
+            isSubmitting = false;
+            return;
+        }
         const response = await fetch(apiURLMovieEdit, {
             method: 'PUT',
             headers: {
@@ -738,8 +765,7 @@ async function updateMovie() {
         });
 
         if (!response.ok) {
-            const errorResponse = await response.json();
-            console.error('API error response:', errorResponse);
+            const errorResponse = await response.json().catch(() => ({}));
             showToast('Error: ' + (errorResponse.message || 'Unknown error'), 'error');
             isSubmitting = false;
             return;
@@ -749,7 +775,6 @@ async function updateMovie() {
         fetchMovies();
         closeModal();
     } catch (error) {
-        console.error('Error during update:', error);
         showToast('Error: ' + error.message, 'error');
     } finally {
         isSubmitting = false;
@@ -783,6 +808,10 @@ if (yesBtn) {
 
         try {
             const token = getToken();
+            if (!token) {
+                closeRemoveModal();
+                return;
+            }
             const response = await fetch(
                 `${apiURLMovieCreate}/${movieToRemoveId}`,
                 {

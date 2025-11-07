@@ -1,7 +1,14 @@
+const ADMIN_EMAILS = ['admin@admin.com'];
+
+function isAdminEmail(email) {
+  if (!email) return false;
+  return ADMIN_EMAILS.includes(email.toLowerCase());
+}
+
 window.addEventListener('load', () => {
   const token = sessionStorage.getItem('access_token');
-  const userType = sessionStorage.getItem('user_type');
-  if (token && userType === 'admin') {
+  const email = sessionStorage.getItem('user_email');
+  if (token && isAdminEmail(email)) {
     window.location.replace('../admin/dashboard.html');
   }
 });
@@ -97,14 +104,38 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (_) {
+        data = null;
+      }
 
-      if (response.ok && data.result === true && data.data) {
+      const isSuccessfulPayload = data && data.result === true && data.data;
+
+      if ((response.ok || response.status === 500) && isSuccessfulPayload) {
+        const profileEmail = (data.data.profile?.email || email || '').toLowerCase();
+
+        if (!isAdminEmail(profileEmail)) {
+          if (emailGroup) {
+            emailGroup.style.border = '2px solid #e74c3c';
+          }
+          if (passwordGroup) {
+            passwordGroup.style.border = '2px solid #e74c3c';
+          }
+          showToast('This account is not authorized for admin access.', 'error');
+          sessionStorage.removeItem('access_token');
+          sessionStorage.removeItem('user_email');
+          sessionStorage.removeItem('user_data');
+          setTimeout(resetBorders, 3000);
+          return;
+        }
+
         const accessToken = data.data.tokens?.access_token || data.data.access_token;
         if (accessToken) {
           sessionStorage.setItem('access_token', accessToken);
-          sessionStorage.setItem('user_type', 'admin');
         }
+        sessionStorage.setItem('user_email', profileEmail);
         if (data.data.profile) {
           sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
         }
@@ -127,7 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (passwordGroup) {
           passwordGroup.style.border = '2px solid #e74c3c';
         }
-        showToast(data.message || 'Unable to sign in', 'error');
+        const errorMessage = data?.message || `Unable to sign in (status ${response.status})`;
+        showToast(errorMessage, 'error');
         setTimeout(resetBorders, 3000);
       }
     } catch (_) {

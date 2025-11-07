@@ -587,7 +587,7 @@
 <body>
     <!-- Audio Element -->
     <audio id="introSound" preload="auto">
-        <source src="./sounds/filmalisa-intro.mp3" type="audio/mpeg">
+        <source src="./assets/hard-intro-teaser-199603.mp3" type="audio/mpeg">
         <source src="./sounds/filmalisa-intro.ogg" type="audio/ogg">
     </audio>
 
@@ -765,7 +765,7 @@
             const redirectTarget = '/index.html';
             const redirectTimer = setTimeout(() => {
                 window.location.replace(redirectTarget);
-            }, 6000);
+            }, 8000);
 
             window.addEventListener('beforeunload', () => {
                 clearTimeout(redirectTimer);

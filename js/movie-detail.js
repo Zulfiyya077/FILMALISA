@@ -1,14 +1,15 @@
 const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6MTAzLCJpYXQiOjE3NjA1MTQ4ODMsImV4cCI6MTc5MTYxODg4M30.9wtCEnAhwQ8f_LH9osr4KMeHu31QXRwJgcmSqfrJxNA';
+const ADMIN_FALLBACK_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6MTAzLCJpYXQiOjE3NjA1MTQ4ODMsImV4cCI6MTc5MTYxODg4M30.9wtCEnAhwQ8f_LH9osr4KMeHu31QXRwJgcmSqfrJxNA';
 
 function showToast(message, type = 'success') {
-    const backgroundColor = type === 'success' ? '#27ae60' : '#e74c3c';
     Toastify({
         text: message,
         duration: 3000,
-        gravity: "top",
-        position: "right",
-        backgroundColor: backgroundColor,
+        gravity: 'top',
+        position: 'right',
+        style: {
+            background: type === 'success' ? '#27ae60' : '#e74c3c'
+        },
         stopOnFocus: true
     }).showToast();
 }
@@ -18,11 +19,35 @@ let currentMovieId = null;
 let isFavorite = false;
 let favoriteId = null;
 
-function getHeaders() {
+function getAdminHeaders() {
+    const token = sessionStorage.getItem('access_token') || ADMIN_FALLBACK_TOKEN;
     return {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ACCESS_TOKEN}`
+        'Authorization': `Bearer ${token}`
     };
+}
+
+function getClientHeaders() {
+    const token = sessionStorage.getItem('access_token');
+    if (!token) {
+        return null;
+    }
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+}
+
+function requireClientSession() {
+    const token = sessionStorage.getItem('access_token');
+    if (!token) {
+        showToast('Please sign in to continue.', 'error');
+        setTimeout(() => {
+            window.location.href = '../auth/Clientlogin.html';
+        }, 800);
+        return false;
+    }
+    return true;
 }
 
 function getMovieIdFromURL() {
@@ -34,7 +59,7 @@ async function loadMovieDetails(movieId) {
     try {
         const response = await fetch(`${API_URL}/admin/movies`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAdminHeaders()
         });
 
         if (!response.ok) {
@@ -51,15 +76,12 @@ async function loadMovieDetails(movieId) {
                 await displayMovieDetails(movie);
                 await loadSimilarMovies(movie.category?.id);
             } else {
-                console.error('Movie not found');
                 showToast('Movie not found', 'error');
             }
         } else {
-            console.error('Invalid response format');
             showToast('Error loading movie details', 'error');
         }
     } catch (error) {
-        console.error('Error loading movie details:', error);
         showToast('Error loading movie details: ' + error.message, 'error');
     }
 }
@@ -96,8 +118,6 @@ function displayCast(actors) {
     const castList = document.getElementById('castList');
     if (!castList) return;
 
-    console.log('Cast data received:', actors);
-
     if (!actors || actors.length === 0) {
         castList.innerHTML = '<p style="color: #666;">No cast information available</p>';
         return;
@@ -117,7 +137,7 @@ async function loadSimilarMovies(categoryId) {
     try {
         const response = await fetch(`${API_URL}/admin/movies`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAdminHeaders()
         });
 
         if (!response.ok) {
@@ -134,7 +154,7 @@ async function loadSimilarMovies(categoryId) {
             displaySimilarMovies(similarMovies);
         }
     } catch (error) {
-        console.error('Error loading similar movies:', error);
+        showToast('Similar movies could not be loaded.', 'error');
     }
 }
 
@@ -172,7 +192,6 @@ function openTrailerModal(movie) {
     const modalTitle = document.getElementById('trailerModalTitle');
     
     if (!modalElement || !iframe || !modalTitle) {
-        console.error('Modal elements not found');
         return;
     }
     
@@ -255,7 +274,7 @@ async function loadComments(movieId) {
     try {
         const response = await fetch(`${API_URL}/admin/comments`, {
             method: 'GET',
-            headers: getHeaders()
+            headers: getAdminHeaders()
         });
 
         if (!response.ok) {
@@ -272,7 +291,7 @@ async function loadComments(movieId) {
             displayComments(movieComments);
         }
     } catch (error) {
-        console.error('Error loading comments:', error);
+        showToast('Comments could not be loaded.', 'error');
     }
 }
 
@@ -316,38 +335,34 @@ async function submitComment() {
     }
 
     try {
-        console.log('Submitting comment for movie:', currentMovieId);
-        console.log('Comment text:', commentText);
-        
         const requestBody = {
             movie_id: currentMovieId,
             comment: commentText
         };
         
-        console.log('Request body:', requestBody);
-        
+        const headers = getClientHeaders();
+        if (!headers) {
+            requireClientSession();
+            return;
+        }
+
         const response = await fetch(`${API_URL}/movies/${currentMovieId}/comment`, {
             method: 'POST',
-            headers: getHeaders(),
+            headers,
             body: JSON.stringify(requestBody)
         });
-
-        console.log('Response status:', response.status);
         
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            console.log('Error response:', errorData);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('Success response:', data);
         
         commentInput.value = '';
         await loadComments(currentMovieId);
         showToast('Comment added successfully!', 'success');
     } catch (error) {
-        console.error('Error submitting comment:', error);
         showToast('Error adding comment: ' + error.message, 'error');
     }
 }
@@ -410,11 +425,20 @@ async function initializePage() {
 
 async function addToFavorites() {
     if (!currentMovieId) return;
-    
+
+    if (!requireClientSession()) {
+        return;
+    }
+
+    const headers = getClientHeaders();
+    if (!headers) {
+        return;
+    }
+
     try {
         const response = await fetch(`${API_URL}/movie/${currentMovieId}/favorite`, {
             method: 'POST',
-            headers: getHeaders()
+            headers
         });
 
         if (!response.ok) {
@@ -429,28 +453,30 @@ async function addToFavorites() {
             showToast('Added to favorites!', 'success');
         }
     } catch (error) {
-        console.error('Error adding to favorites:', error);
         showToast('Error adding to favorites', 'error');
     }
 }
 
 async function removeFromFavorites() {
     if (!currentMovieId) return;
-    
+
+    if (!requireClientSession()) {
+        return;
+    }
+
+    const headers = getClientHeaders();
+    if (!headers) {
+        return;
+    }
+
     try {
-        console.log('Removing favorite, movie ID:', currentMovieId);
-        console.log('DELETE URL:', `${API_URL}/movie/${currentMovieId}/favorite`);
-        
         const response = await fetch(`${API_URL}/movie/${currentMovieId}/favorite`, {
             method: 'DELETE',
-            headers: getHeaders()
+            headers
         });
 
-        console.log('DELETE Response status:', response.status);
-        
         if (response.status === 404) {
             const errorData = await response.json().catch(() => ({}));
-            console.log('404 Response:', errorData);
             isFavorite = false;
             favoriteId = null;
             updateFavoriteButton();
@@ -460,12 +486,10 @@ async function removeFromFavorites() {
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            console.log('Error Response:', errorData);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('DELETE Success Response:', data);
         
         if (data.result || data.message === 'Successfully removed favorites') {
             isFavorite = false;
@@ -474,7 +498,6 @@ async function removeFromFavorites() {
             showToast('Removed from favorites', 'success');
         }
     } catch (error) {
-        console.error('Error removing from favorites:', error);
         showToast('Error removing from favorites', 'error');
     }
 }
@@ -494,11 +517,16 @@ function updateFavoriteButton() {
 
 async function checkFavoriteStatus() {
     if (!currentMovieId) return;
-    
+
+    const headers = getClientHeaders();
+    if (!headers) {
+        return;
+    }
+
     try {
         const response = await fetch(`${API_URL}/movies/favorites`, {
             method: 'GET',
-            headers: getHeaders()
+            headers
         });
 
         if (response.ok) {
@@ -513,7 +541,7 @@ async function checkFavoriteStatus() {
             }
         }
     } catch (error) {
-        console.error('Error checking favorite status:', error);
+        showToast('Favorites could not be loaded.', 'error');
     }
 }
 

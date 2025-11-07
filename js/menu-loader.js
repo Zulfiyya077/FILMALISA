@@ -1,5 +1,5 @@
 const MENU_DEFAULTS = {
-  defaultAvatar: '/assets/images/1651258516656 1.png',
+
   menuPath: '/includes/menu.html',
   footerPath: '/includes/footer.html'
 };

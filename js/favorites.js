@@ -2,8 +2,7 @@ const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
 const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6MTAzLCJpYXQiOjE3NjA1MTQ4ODMsImV4cCI6MTc5MTYxODg4M30.9wtCEnAhwQ8f_LH9osr4KMeHu31QXRwJgcmSqfrJxNA';
 
 function getHeaders() {
-    const userToken = sessionStorage.getItem('user_token');
-    const token = userToken || ACCESS_TOKEN;
+    const token = sessionStorage.getItem('access_token') || ACCESS_TOKEN;
     
     return {
         'Content-Type': 'application/json',
@@ -88,7 +87,7 @@ window.addEventListener('load', () => {
 });
 
 window.addEventListener('load', () => {
-    const mainToken = sessionStorage.getItem('user_token');
+    const mainToken = sessionStorage.getItem('access_token');
 
     if (!mainToken) {
         window.location.href = '../auth/Clientlogin.html';

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FILMALISA Intro</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        font-family: 'Bebas Neue', sans-serif;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #050505 0%, #120b22 50%, #0d1c33 100%);
+        overflow: hidden;
+        position: relative;
+      }
+
+      #container netflixintro {
+        display: block;
+        position: relative;
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+        animation: zoom-in 3.5s ease-in 0.5s forwards;
+        background-size: 4000px;
+        background-position: -1950px 0;
+      }
+
+      #container netflixintro::before {
+        content: '';
+        position: absolute;
+        display: block;
+        background: linear-gradient(135deg, #050505 0%, #120b22 50%, #0d1c33 100%);
+        width: 150%;
+        height: 32%;
+        left: -25%;
+        bottom: -27%;
+        border-radius: 50%;
+        z-index: 5;
+        transform-origin: left center;
+        background-size: 4000px;
+        background-position: -1950px 0;
+      }
+
+      #container netflixintro[letter='F'] {
+        transform-origin: 30% center;
+      }
+
+      #container netflixintro [class*='helper-'] {
+        position: absolute;
+      }
+
+      #container netflixintro [class*='helper-'] .effect-brush {
+        position: absolute;
+        width: 100%;
+        height: 300%;
+        top: 0;
+        overflow: hidden;
+      }
+
+      #container netflixintro [class*='helper-'] .effect-brush::before {
+        display: block;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 70%;
+        background: linear-gradient(135deg, #8b5cf6 0%, #0fefdd 50%, #ff69b4 100%);
+        box-shadow: 0 0 29px 24px rgba(139, 92, 246, 0.65);
+      }
+
+      #container netflixintro [class*='helper-'] .effect-brush [class*='fur-'] {
+        display: block;
+        position: absolute;
+        bottom: 10%;
+        height: 30%;
+      }
+
+      #container netflixintro [class*='helper-'] .effect-lumieres {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        animation: showing-lights 2s ease 1.6s forwards;
+      }
+
+      #container netflixintro [class*='helper-'] .effect-lumieres [class*='lamp-'] {
+        position: absolute;
+        display: block;
+        height: 100%;
+        background: var(--color);
+        box-shadow: 0 0 10px var(--color);
+      }
+
+      #container netflixintro [class*='helper-'] .effect-lumieres [class*='lamp-']::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: var(--color);
+        box-shadow: 0 0 10px var(--color);
+      }
+
+      #container netflixintro [letter='F'] .helper-1 {
+        width: 19.5%;
+        height: 100%;
+        left: 22%;
+        top: 0;
+        transform: rotate(180deg);
+        animation: fading-brush 2s ease forwards 0.6s;
+      }
+
+      #container netflixintro [letter='F'] .helper-1 .effect-brush {
+        animation: brush-moving 2.5s forwards 1.2s;
+      }
+
+      #container netflixintro [letter='F'] .helper-2 {
+        width: 17.5%;
+        height: 50%;
+        left: 38%;
+        top: -49px;
+        transform: rotate(270deg);
+        overflow: hidden;
+      }
+
+      #container netflixintro [letter='F'] .helper-2 .effect-brush {
+        animation: brush-moving 2s forwards 0.7s;
+      }
+
+      #container netflixintro [letter='F'] .helper-3 {
+        width: 17%;
+        height: 39%;
+        left: 33%;
+        top: 29%;
+        transform: rotate(-90deg);
+        box-shadow: 0 0 35px -12px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+        animation: fading-out 2s forwards 1s;
+      }
+
+      #container netflixintro [letter='F'] .helper-3 .effect-brush {
+        animation: brush-moving 2s forwards 0.5s;
+      }
+
+      .filmalisa-text {
+        position: absolute;
+        font-size: 96px;
+        font-weight: 700;
+        letter-spacing: 10px;
+        color: transparent;
+        background: linear-gradient(135deg, #8b5cf6 0%, #0fefdd 50%, #ff69b4 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        opacity: 0;
+        animation: text-appear 1s ease-in-out 3.5s forwards;
+      }
+
+      @keyframes brush-moving {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-100%);
+        }
+      }
+
+      @keyframes fading-out {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes fading-brush {
+        0% {
+          background-color: rgba(139, 92, 246, 0.5);
+        }
+        100% {
+          background-color: rgba(139, 92, 246, 0);
+        }
+      }
+
+      @keyframes zoom-in {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(15);
+        }
+      }
+
+      @keyframes showing-lights {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes text-appear {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="introSound" preload="auto">
+      <source src="/hard-intro-teaser-199603.mp3" type="audio/mpeg" />
+      <source src="/sounds/filmalisa-intro.ogg" type="audio/ogg" />
+    </audio>
+
+    <div id="container">
+      <netflixintro letter="F">
+        <div class="helper-1">
+          <div class="effect-brush">
+            <span class="fur-31"></span>
+            <span class="fur-30"></span>
+            <span class="fur-29"></span>
+            <span class="fur-28"></span>
+            <span class="fur-27"></span>
+            <span class="fur-26"></span>
+            <span class="fur-25"></span>
+            <span class="fur-24"></span>
+            <span class="fur-23"></span>
+            <span class="fur-22"></span>
+            <span class="fur-21"></span>
+            <span class="fur-20"></span>
+            <span class="fur-19"></span>
+            <span class="fur-18"></span>
+            <span class="fur-17"></span>
+            <span class="fur-16"></span>
+            <span class="fur-15"></span>
+            <span class="fur-14"></span>
+            <span class="fur-13"></span>
+            <span class="fur-12"></span>
+            <span class="fur-11"></span>
+            <span class="fur-10"></span>
+            <span class="fur-9"></span>
+            <span class="fur-8"></span>
+            <span class="fur-7"></span>
+            <span class="fur-6"></span>
+            <span class="fur-5"></span>
+            <span class="fur-4"></span>
+            <span class="fur-3"></span>
+            <span class="fur-2"></span>
+            <span class="fur-1"></span>
+          </div>
+          <div class="effect-lumieres">
+            <span class="lamp-1"></span>
+            <span class="lamp-2"></span>
+            <span class="lamp-3"></span>
+            <span class="lamp-4"></span>
+            <span class="lamp-5"></span>
+            <span class="lamp-6"></span>
+            <span class="lamp-7"></span>
+            <span class="lamp-8"></span>
+            <span class="lamp-9"></span>
+            <span class="lamp-10"></span>
+            <span class="lamp-11"></span>
+            <span class="lamp-12"></span>
+            <span class="lamp-13"></span>
+            <span class="lamp-14"></span>
+            <span class="lamp-15"></span>
+            <span class="lamp-16"></span>
+            <span class="lamp-17"></span>
+            <span class="lamp-18"></span>
+            <span class="lamp-19"></span>
+            <span class="lamp-20"></span>
+            <span class="lamp-21"></span>
+            <span class="lamp-22"></span>
+            <span class="lamp-23"></span>
+            <span class="lamp-24"></span>
+            <span class="lamp-25"></span>
+            <span class="lamp-26"></span>
+            <span class="lamp-27"></span>
+            <span class="lamp-28"></span>
+          </div>
+        </div>
+        <div class="helper-2">
+          <div class="effect-brush">
+            <span class="fur-31"></span>
+            <span class="fur-30"></span>
+            <span class="fur-29"></span>
+            <span class="fur-28"></span>
+            <span class="fur-27"></span>
+            <span class="fur-26"></span>
+            <span class="fur-25"></span>
+            <span class="fur-24"></span>
+            <span class="fur-23"></span>
+            <span class="fur-22"></span>
+            <span class="fur-21"></span>
+            <span class="fur-20"></span>
+            <span class="fur-19"></span>
+            <span class="fur-18"></span>
+            <span class="fur-17"></span>
+            <span class="fur-16"></span>
+            <span class="fur-15"></span>
+            <span class="fur-14"></span>
+            <span class="fur-13"></span>
+            <span class="fur-12"></span>
+            <span class="fur-11"></span>
+            <span class="fur-10"></span>
+            <span class="fur-9"></span>
+            <span class="fur-8"></span>
+            <span class="fur-7"></span>
+            <span class="fur-6"></span>
+            <span class="fur-5"></span>
+            <span class="fur-4"></span>
+            <span class="fur-3"></span>
+            <span class="fur-2"></span>
+            <span class="fur-1"></span>
+          </div>
+        </div>
+        <div class="helper-3">
+          <div class="effect-brush">
+            <span class="fur-31"></span>
+            <span class="fur-30"></span>
+            <span class="fur-29"></span>
+            <span class="fur-28"></span>
+            <span class="fur-27"></span>
+            <span class="fur-26"></span>
+            <span class="fur-25"></span>
+            <span class="fur-24"></span>
+            <span class="fur-23"></span>
+            <span class="fur-22"></span>
+            <span class="fur-21"></span>
+            <span class="fur-20"></span>
+            <span class="fur-19"></span>
+            <span class="fur-18"></span>
+            <span class="fur-17"></span>
+            <span class="fur-16"></span>
+            <span class="fur-15"></span>
+            <span class="fur-14"></span>
+            <span class="fur-13"></span>
+            <span class="fur-12"></span>
+            <span class="fur-11"></span>
+            <span class="fur-10"></span>
+            <span class="fur-9"></span>
+            <span class="fur-8"></span>
+            <span class="fur-7"></span>
+            <span class="fur-6"></span>
+            <span class="fur-5"></span>
+            <span class="fur-4"></span>
+            <span class="fur-3"></span>
+            <span class="fur-2"></span>
+            <span class="fur-1"></span>
+          </div>
+        </div>
+      </netflixintro>
+
+      <div class="filmalisa-text">FILMALISA</div>
+    </div>
+
+    <script>
+      sessionStorage.setItem('introPlayed', 'true');
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const introSound = document.getElementById('introSound');
+        const redirectTarget = 'index.html';
+
+        setTimeout(() => {
+          introSound.volume = 0.7;
+          const playPromise = introSound.play();
+
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                console.info('Intro audio playing');
+              })
+              .catch((error) => {
+                console.warn('Audio autoplay was blocked:', error);
+                document.body.addEventListener(
+                  'click',
+                  () => {
+                    introSound.play();
+                  },
+                  { once: true }
+                );
+              });
+          }
+        }, 500);
+
+        setTimeout(() => {
+          window.location.replace(redirectTarget);
+        }, 6000);
+      });
+    </script>
+  </body>
+</html>

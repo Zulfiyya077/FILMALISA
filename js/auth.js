@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const passwordInput = document.getElementById('loginPassword');
       
       if (!emailInput || !passwordInput) {
-        showToast("Form elementləri tapılmadı", 'error');
+        showToast("Form elements not found", 'error');
         return;
       }
 
@@ -74,18 +74,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Security validations
       if (!email || !password) {
-        showToast("Zəhmət olmasa bütün sahələri doldurun", 'error');
+        showToast("Please fill in all fields", 'error');
         return;
       }
 
       if (!validateEmail(email)) {
-        showToast("Zəhmət olmasa düzgün email ünvanı daxil edin", 'error');
+        showToast("Please enter a valid email address", 'error');
         emailInput.focus();
         return;
       }
 
       if (!validatePassword(password)) {
-        showToast("Şifrə ən azı 6 simvol olmalıdır", 'error');
+        showToast("Password must contain at least 6 characters", 'error');
         passwordInput.focus();
         return;
       }
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const submitButton = loginForm.querySelector('button[type="submit"]');
       const originalButtonText = submitButton.textContent;
       submitButton.disabled = true;
-      submitButton.textContent = "Giriş edilir...";
+      submitButton.textContent = "Signing in...";
 
       try {
         const response = await fetch(
@@ -130,19 +130,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
 
-          showToast("Giriş uğurludur!", 'success');
+          showToast("Signed in successfully", 'success');
           
           setTimeout(() => {
             window.location.href = "../client/home.html";
           }, 1000);
         } else {
-          const errorMessage = data.message || "Giriş uğursuzdur";
-          showToast("Xəta: " + errorMessage, 'error');
+          const errorMessage = data.message || "Sign in failed";
+          showToast("Error: " + errorMessage, 'error');
           passwordInput.value = '';
           passwordInput.focus();
         }
       } catch (error) {
-        showToast("Serverə qoşulmaq mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.", 'error');
+        showToast("Unable to reach the server. Please try again.", 'error');
       } finally {
         // Re-enable form
         submitButton.disabled = false;
@@ -190,24 +190,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Security validations
       if (!fullName || !email || !password) {
-        showToast("Zəhmət olmasa bütün sahələri doldurun", 'error');
+        showToast("Please fill in all fields", 'error');
         return;
       }
 
       if (!validateFullName(fullName)) {
-        showToast("Ad soyad ən azı 2 simvol olmalıdır və yalnız hərflərdən ibarət olmalıdır", 'error');
+        showToast("Full name must contain at least 2 letters", 'error');
         registerNameInput.focus();
         return;
       }
 
       if (!validateEmail(email)) {
-        showToast("Zəhmət olmasa düzgün email ünvanı daxil edin", 'error');
+        showToast("Please enter a valid email address", 'error');
         registerEmailInput.focus();
         return;
       }
 
       if (!validatePassword(password)) {
-        showToast("Şifrə ən azı 6 simvol olmalıdır", 'error');
+        showToast("Password must contain at least 6 characters", 'error');
         registerPasswordInput.focus();
         return;
       }
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const submitButton = registerForm.querySelector('button[type="submit"]');
       const originalButtonText = submitButton.textContent;
       submitButton.disabled = true;
-      submitButton.textContent = "Qeydiyyatdan keçilir...";
+      submitButton.textContent = "Creating account...";
 
       try {
         const response = await fetch(
@@ -240,27 +240,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (response.ok && data.result === true) {
           sessionStorage.setItem("userRegistered", email);
-          showToast("Qeydiyyat uğurludur! Giriş səhifəsinə yönləndirilirsiniz...", 'success');
+          showToast("Registration successful. Redirecting to sign in...", 'success');
           
           setTimeout(() => {
             window.location.href = "Clientlogin.html";
           }, 1000);
         } else {
-          const errorMessage = data.message || "Qeydiyyat uğursuzdur";
+          const errorMessage = data.message || "Registration failed";
           if (errorMessage.includes("already registered") || errorMessage.includes("already in use")) {
-            showToast("Bu email artıq istifadə olunur. Zəhmət olmasa giriş edin.", 'error');
+            showToast("This email is already registered. Please sign in.", 'error');
             setTimeout(() => {
               window.location.href = "Clientlogin.html";
             }, 2000);
           } else {
-            showToast("Xəta: " + errorMessage, 'error');
+            showToast("Error: " + errorMessage, 'error');
           }
           
           registerPasswordInput.value = '';
           registerPasswordInput.focus();
         }
       } catch (error) {
-        showToast("Serverə qoşulmaq mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.", 'error');
+        showToast("Unable to reach the server. Please try again.", 'error');
       } finally {
         // Re-enable form
         submitButton.disabled = false;

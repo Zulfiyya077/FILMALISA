@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hesab Məlumatları - FILMALISA</title>
+    <title>Account Details - FILMALISA</title>
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/menu.css" />
     <link rel="stylesheet" href="../css/clientaccount.css" />
@@ -21,14 +21,14 @@
         <div class="profile-photo">
           <img
             src="../assets/images/1651258516656 1.png"
-            alt="Profil şəkli"
+            alt="Profile image"
             id="profileImagePreview"
           />
         </div>
         <div style="text-align: center;">
-          <h1 class="profile-title">Profil məlumatları</h1>
+          <h1 class="profile-title">Account Information</h1>
           <p class="profile-subtitle">
-            Şəxsi məlumatlarınızı yeniləyin və hesabınızı təhlükəsiz saxlayın.
+            Update your personal details and keep your account secure.
           </p>
         </div>
 
@@ -42,7 +42,7 @@
             <input
               type="url"
               id="profileImage"
-              placeholder="Profil şəkli URL"
+              placeholder="Profile image URL"
               autocomplete="off"
             />
             <img
@@ -62,7 +62,7 @@
             <input
               type="text"
               id="fullName"
-              placeholder="Ad və soyad"
+              placeholder="Full name"
               autocomplete="name"
               required
             />
@@ -104,26 +104,26 @@
             <input
               type="password"
               id="password"
-              placeholder="Yeni şifrə (istəyə bağlı)"
+              placeholder="New password (optional)"
               autocomplete="new-password"
             />
             <img
               src="../assets/icons/righticon.svg"
-              alt="Şifrəni göstər"
+              alt="Toggle password visibility"
               class="icon-right"
               id="togglePasswordVisibility"
             />
           </div>
 
           <p class="profile-hint">
-            Şifrə ən azı 6 simvol olmalıdır. Şəkil linki daxil etdikdə yeni profil
-            şəkli avtomatik olaraq önizlənəcək.
+            Password should contain at least 6 characters. When you enter an image URL,
+            the preview updates automatically.
           </p>
 
           <div class="profile-actions">
             <button type="submit" class="profile-submit">Yadda saxla</button>
             <button type="button" class="profile-submit profile-reset" id="profileReset">
-              Dəyişikləri sıfırla
+              Reset changes
             </button>
           </div>
         </form>
@@ -160,7 +160,7 @@
         const clearImageButton = document.getElementById('profileImageClear');
         const togglePassword = document.getElementById('togglePasswordVisibility');
 
-        const DEFAULT_AVATAR = '../assets/images/1651258516656 1.png';
+        const DEFAULT_AVATAR = '/assets/images/1651258516656 1.png';
         const storedUserRaw = sessionStorage.getItem('user_data');
         if (storedUserRaw) {
           try {
@@ -172,16 +172,17 @@
               previewImage.src = storedUser.img_url;
             }
           } catch (error) {
-            console.warn('İstifadəçi məlumatlarını oxumaq mümkün olmadı:', error);
+            console.warn('Unable to read user data:', error);
           }
         }
 
         const updatePreview = (value) => {
-          if (!value) {
+          const finalValue = value && value.trim() ? value.trim() : DEFAULT_AVATAR;
+          previewImage.src = finalValue;
+          previewImage.onerror = function () {
+            previewImage.onerror = null;
             previewImage.src = DEFAULT_AVATAR;
-            return;
-          }
-          previewImage.src = value;
+          };
         };
 
         imageInput.addEventListener('input', (event) => {
@@ -211,10 +212,10 @@
               if (window.updateSidebarAvatar) {
                 window.updateSidebarAvatar(storedUser.img_url);
               }
-              showToast('Dəyişikliklər sıfırlandı.', 'success');
+              showToast('Changes have been reset.', 'success');
               return;
             } catch (error) {
-              console.warn('İstifadəçi məlumatları sıfırlanmadı:', error);
+              console.warn('User data reset failed:', error);
             }
           }
 
@@ -225,7 +226,7 @@
           if (window.updateSidebarAvatar) {
             window.updateSidebarAvatar();
           }
-          showToast('Form sıfırlandı.', 'success');
+          showToast('Form reset.', 'success');
         });
 
         form.addEventListener('submit', (event) => {
@@ -237,13 +238,13 @@
           const password = passwordInput.value.trim();
 
           if (!fullName || fullName.length < 2) {
-            showToast('Ad və soyad ən azı 2 simvol olmalıdır.', 'error');
+            showToast('Full name must contain at least 2 characters.', 'error');
             fullNameInput.focus();
             return;
           }
 
           if (password && password.length < 6) {
-            showToast('Şifrə ən azı 6 simvol olmalıdır.', 'error');
+            showToast('Password must contain at least 6 characters.', 'error');
             passwordInput.focus();
             return;
           }
@@ -264,7 +265,7 @@
             window.updateSidebarAvatar(imageUrl);
           }
 
-          showToast('Profil məlumatları yeniləndi.', 'success');
+          showToast('Profile information saved.', 'success');
         });
       });
     </script>

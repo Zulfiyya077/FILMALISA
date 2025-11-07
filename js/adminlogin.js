@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById('adminPassword');
     
     if (!usernameInput || !passwordInput) {
-      showToast("Form elementləri tapılmadı", 'error');
+      showToast("Form elements not found", 'error');
       return;
     }
 
@@ -65,18 +65,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Security validations
     if (!username || !password) {
-      showToast("Zəhmət olmasa bütün sahələri doldurun", 'error');
+      showToast("Please fill in all fields", 'error');
       return;
     }
 
     if (!validateEmail(username)) {
-      showToast("Zəhmət olmasa düzgün email ünvanı daxil edin", 'error');
+      showToast("Please enter a valid email address", 'error');
       usernameInput.focus();
       return;
     }
 
     if (!validatePassword(password)) {
-      showToast("Şifrə ən azı 6 simvol olmalıdır", 'error');
+      showToast("Password must contain at least 6 characters", 'error');
       passwordInput.focus();
       return;
     }
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const submitButton = form.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.textContent;
     submitButton.disabled = true;
-    submitButton.textContent = "Giriş edilir...";
+    submitButton.textContent = "Signing in...";
 
     try {
       const response = await fetch(
@@ -121,19 +121,19 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }
 
-        showToast("Giriş uğurludur!", 'success');
+        showToast("Signed in successfully", 'success');
         
         setTimeout(() => {
           window.location.href = "../admin/dashboard.html";
         }, 1000);
       } else {
-        const errorMessage = data.message || "Giriş uğursuzdur";
-        showToast("Xəta: " + errorMessage, 'error');
+        const errorMessage = data.message || "Sign in failed";
+        showToast("Error: " + errorMessage, 'error');
         passwordInput.value = '';
         passwordInput.focus();
       }
     } catch (error) {
-      showToast("Serverə qoşulmaq mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.", 'error');
+      showToast("Unable to reach the server. Please try again.", 'error');
     } finally {
       // Re-enable form
       submitButton.disabled = false;

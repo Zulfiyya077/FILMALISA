@@ -67,7 +67,7 @@
             </nav>
             
             <div class="logout-section">
-                <a href="../auth/adminlogin.html" class="logout-btn">
+                <a href="../auth/adminlogin.html" class="logout-btn" data-role="admin-logout">
                     <img src="../images/sidebar_logout_icon.svg" alt="Logout" class="logout-icon">
                     <span>Logout</span>
                 </a>
@@ -138,7 +138,16 @@
         </div>
     </div>
 
+    <div id="footer-container"></div>
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/menu-loader.js"></script>
+    <script src="./_auth-guard.js"></script>
+    <script>
+        ensureAdminAuthenticated();
+        setupAdminLogout();
+        loadMenuAndFooter({ includeFooter: true });
+    </script>
 </body>
 </html>

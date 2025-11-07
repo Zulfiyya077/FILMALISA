@@ -91,7 +91,7 @@ window.addEventListener('load', () => {
     const mainToken = sessionStorage.getItem('user_token');
 
     if (!mainToken) {
-        window.location.href = '../auth/register.html';
+        window.location.href = '../auth/Clientlogin.html';
     }
 });
 

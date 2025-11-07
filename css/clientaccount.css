@@ -11,9 +11,15 @@ body {
   min-height: 100vh;
 }
 
-.profile-main {
-  margin-left: 130px;
-  padding: 130px 24px 80px;
+.main-content {
+  flex: 1;
+  padding: 120px 40px 80px;
+  margin-left: 60px;
+}
+
+.account-container {
+  max-width: 860px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
 }
@@ -159,15 +165,15 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .profile-main {
+  .main-content {
     margin-left: 0;
-    padding: 120px 24px 60px;
+    padding: 110px 24px 60px;
   }
 }
 
 @media (max-width: 640px) {
-  .profile-main {
-    padding: 110px 16px 50px;
+  .main-content {
+    padding: 100px 16px 50px;
   }
 
   .profile-title {

@@ -39,18 +39,18 @@ function getToken() {
 }
 
 // Element seçiciləri
-const modal = document.getElementById('movieModal');
-const myForm = document.getElementById('movieForm');
-const title = document.getElementById('movieTitle');
-const overview = document.getElementById('movieOverview');
-const coverUrl = document.getElementById('movieCoverUrl');
-const fragman = document.getElementById('movieFragman');
-const watchUrl = document.getElementById('movieWatchUrl');
-const imdb = document.getElementById('movieImdb');
-const runtime = document.getElementById('movieRuntime');
-const adult = document.getElementById('movieAdult');
+const modal = document.getElementById('movieModal') || document.getElementById('modal');
+const myForm = document.getElementById('movieForm') || document.getElementById('myForm');
+const title = document.getElementById('movieTitle') || document.getElementById('title');
+const overview = document.getElementById('movieOverview') || document.getElementById('overview');
+const coverUrl = document.getElementById('movieCoverUrl') || document.getElementById('cover-url');
+const fragman = document.getElementById('movieFragman') || document.getElementById('fragman');
+const watchUrl = document.getElementById('movieWatchUrl') || document.getElementById('watch-url');
+const imdb = document.getElementById('movieImdb') || document.getElementById('imdb');
+const runtime = document.getElementById('movieRuntime') || document.getElementById('runtime');
+const adult = document.getElementById('movieAdult') || document.getElementById('adult');
 const submitBtn = document.getElementById('submit-btn') || document.querySelector('.submit-btn');
-const tableBody = document.getElementById('moviesTableBody');
+const tableBody = document.getElementById('moviesTableBody') || document.querySelector('.table-div table tbody');
 const paginationContainer = document.getElementById('moviesPagination') || document.querySelector('.pagination-container');
 const dropdown = document.querySelector('.dropdown');
 const dropdownToggle = dropdown ? dropdown.querySelector('.dropdown-togglee') : null;
@@ -58,9 +58,23 @@ const dropdownItems = dropdown ? dropdown.querySelector('#dropdown-items') : nul
 const categoryDropdown = document.querySelector('.category-dropdown');
 const categoryToggle = categoryDropdown ? categoryDropdown.querySelector('.category-toggle') : null;
 const categoryItems = categoryDropdown ? categoryDropdown.querySelector('#category-items') : null;
-const imageElement = document.querySelector('#moviePreview') || document.querySelector('.image-wrapper img');
+const categorySelect = document.getElementById('categorySelect');
+const actorsSelect = document.getElementById('actorsSelect');
+const imageElement = document.querySelector('#moviePreview') || document.querySelector('.image-wrapper img') || document.querySelector('.modal .image-wrapper img');
 
 const defaultImage = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'450\'%3E%3Crect width=\'300\' height=\'450\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-family=\'Arial\' font-size=\'18\' fill=\'%23fff\' text-anchor=\'middle\' dy=\'.3em\'%3ENo Image%3C/text%3E%3C/svg%3E';
+
+if (categorySelect) {
+    categorySelect.addEventListener('change', () => {
+        categorySelect.classList.remove('error');
+    });
+}
+
+if (actorsSelect) {
+    actorsSelect.addEventListener('change', () => {
+        actorsSelect.classList.remove('error');
+    });
+}
 
 // Dəyişənlər
 let currentPage = 1;
@@ -317,6 +331,7 @@ if (dropdownToggle && dropdownItems) {
                     item.classList.add('selected');
                 }
                 updateDropdownToggleText();
+                if (dropdownToggle) dropdownToggle.classList.remove('error');
             }
         });
     }
@@ -456,6 +471,53 @@ function resetForm() {
 
     if (dropdownToggle) dropdownToggle.classList.remove('error');
     if (categoryToggle) categoryToggle.classList.remove('error');
+
+    if (categorySelect) {
+        categorySelect.value = '';
+        categorySelect.classList.remove('error');
+    }
+
+    if (actorsSelect) {
+        Array.from(actorsSelect.options).forEach((option) => {
+            option.selected = false;
+        });
+        actorsSelect.classList.remove('error');
+    }
+}
+
+function getSelectedCategoryId() {
+    if (categoryItems) {
+        const selectedItem = categoryItems.querySelector('.category-item.selected');
+        if (selectedItem) {
+            const categoryId = parseInt(selectedItem.getAttribute('data-id'), 10);
+            if (!isNaN(categoryId)) {
+                return categoryId;
+            }
+        }
+    }
+
+    if (categorySelect) {
+        const categoryId = parseInt(categorySelect.value, 10);
+        return Number.isNaN(categoryId) ? null : categoryId;
+    }
+
+    return null;
+}
+
+function getSelectedActorIds() {
+    if (dropdownItems) {
+        return Array.from(dropdownItems.querySelectorAll('.dropdown-item.selected'))
+            .map((actor) => parseInt(actor.getAttribute('data-id'), 10))
+            .filter((id) => !Number.isNaN(id));
+    }
+
+    if (actorsSelect) {
+        return Array.from(actorsSelect.selectedOptions)
+            .map((option) => parseInt(option.value, 10))
+            .filter((id) => !Number.isNaN(id));
+    }
+
+    return [];
 }
 
 function closeModal() {
@@ -471,7 +533,7 @@ async function createMovie() {
 
     let isValid = true;
 
-    const inputs = document.querySelectorAll('#movieForm input, #movieForm textarea, #movieForm select');
+    const inputs = myForm ? myForm.querySelectorAll('input, textarea, select') : document.querySelectorAll('#movieForm input, #movieForm textarea, #movieForm select');
     inputs.forEach((input) => {
         if (input.type !== 'checkbox' && input.value.trim() === '') {
             input.classList.add('error');
@@ -495,32 +557,33 @@ async function createMovie() {
         if (imdb) imdb.classList.remove('error2');
     }
 
-    const selectedActors = Array.from(
-        document.querySelectorAll('#dropdown-items .dropdown-item.selected')
-    ).map((actor) => parseInt(actor.getAttribute('data-id'))).filter(id => !isNaN(id));
+    const selectedActors = getSelectedActorIds();
+    const selectedCategory = getSelectedCategoryId();
 
-    const selectedCategory = parseInt(
-        document.querySelector('#category-items .category-item.selected')?.getAttribute('data-id')
-    );
-
-    if (!selectedCategory || isNaN(selectedCategory)) {
+    if (!selectedCategory) {
         if (categoryToggle) categoryToggle.classList.add('error');
+        if (categorySelect) categorySelect.classList.add('error');
         isValid = false;
     } else {
         if (categoryToggle) categoryToggle.classList.remove('error');
+        if (categorySelect) categorySelect.classList.remove('error');
     }
 
     if (selectedActors.length === 0) {
         if (dropdownToggle) dropdownToggle.classList.add('error');
+        if (actorsSelect) actorsSelect.classList.add('error');
         isValid = false;
     } else {
         if (dropdownToggle) dropdownToggle.classList.remove('error');
+        if (actorsSelect) actorsSelect.classList.remove('error');
     }
 
     if (!isValid) {
         isSubmitting = false;
         return;
     }
+
+    const categoryPayload = categoryItems ? [selectedCategory] : selectedCategory;
 
     const movieData = {
         title: title ? title.value.trim() : '',
@@ -530,7 +593,7 @@ async function createMovie() {
         adult: adult ? adult.checked : false,
         run_time_min: runtime ? parseInt(runtime.value, 10) : 120,
         imdb: imdb ? parseFloat(imdb.value).toFixed(1) : '0.0',
-        category: [selectedCategory],
+        category: categoryPayload,
         actors: selectedActors,
         overview: overview ? overview.value.trim() : ''
     };
@@ -637,12 +700,13 @@ function fillFormWithMovieDetails(movie) {
     }
 
     if (categoryToggle) {
-        const categoryToggle = document.getElementById('categoryDropdown');
-        categoryToggle.textContent = movie.category ? movie.category.name : 'No category selected';
+        categoryToggle.textContent = movie.category ? movie.category.name : 'category';
+    }
 
-        const categoryItems = document.querySelectorAll('#category-items .category-item');
-        categoryItems.forEach((item) => {
-            const categoryId = parseInt(item.getAttribute('data-id'));
+    if (categoryItems) {
+        const items = categoryItems.querySelectorAll('.category-item');
+        items.forEach((item) => {
+            const categoryId = parseInt(item.getAttribute('data-id'), 10);
             if (movie.category && movie.category.id === categoryId) {
                 item.classList.add('selected');
             } else {
@@ -651,20 +715,36 @@ function fillFormWithMovieDetails(movie) {
         });
     }
 
-    if (dropdownToggle) {
-        const selectedActors = movie.actors
-            ? movie.actors.map((actor) => `${actor.name} ${actor.surname}`).join(', ')
-            : 'No actors selected';
-        dropdownToggle.textContent = selectedActors;
+    if (categorySelect) {
+        categorySelect.value = movie.category ? movie.category.id : '';
+    }
 
-        const dropdownItems = document.querySelectorAll('#dropdown-items .dropdown-item');
-        dropdownItems.forEach((item) => {
-            const actorId = parseInt(item.getAttribute('data-id'));
+    if (dropdownToggle) {
+        const selectedActorsText = movie.actors
+            ? movie.actors.map((actor) => `${actor.name} ${actor.surname}`).join(', ')
+            : 'actors';
+        dropdownToggle.textContent = selectedActorsText;
+    }
+
+    if (dropdownItems) {
+        const items = dropdownItems.querySelectorAll('.dropdown-item');
+        items.forEach((item) => {
+            const actorId = parseInt(item.getAttribute('data-id'), 10);
             if (Array.isArray(movie.actors) && movie.actors.some((actor) => actor.id === actorId)) {
                 item.classList.add('selected');
             } else {
                 item.classList.remove('selected');
             }
+        });
+    }
+
+    if (actorsSelect) {
+        const actorIds = Array.isArray(movie.actors)
+            ? movie.actors.map((actor) => actor.id)
+            : [];
+        Array.from(actorsSelect.options).forEach((option) => {
+            const optionId = parseInt(option.value, 10);
+            option.selected = actorIds.includes(optionId);
         });
     }
 }
@@ -673,11 +753,7 @@ async function updateMovie() {
     if (isSubmitting) return;
     isSubmitting = true;
 
-    const apiURLMovieEdit = `${apiURLMovieCreate}/${movieToEditId}`;
-
-    let isValid = true;
-
-    const inputs = document.querySelectorAll('#movieForm input, #movieForm textarea, #movieForm select');
+    const inputs = myForm ? myForm.querySelectorAll('input, textarea, select') : document.querySelectorAll('#movieForm input, #movieForm textarea, #movieForm select');
     inputs.forEach((input) => {
         if (input.type !== 'checkbox' && input.value.trim() === '') {
             input.classList.add('error');
@@ -701,32 +777,33 @@ async function updateMovie() {
         if (imdb) imdb.classList.remove('error2');
     }
 
-    const selectedActors = Array.from(
-        document.querySelectorAll('#dropdown-items .dropdown-item.selected')
-    ).map((actor) => parseInt(actor.getAttribute('data-id'))).filter(id => !isNaN(id));
+    const selectedActors = getSelectedActorIds();
+    const selectedCategory = getSelectedCategoryId();
 
-    const selectedCategory = parseInt(
-        document.querySelector('#category-items .category-item.selected')?.getAttribute('data-id')
-    );
-
-    if (!selectedCategory || isNaN(selectedCategory)) {
+    if (!selectedCategory) {
         if (categoryToggle) categoryToggle.classList.add('error');
+        if (categorySelect) categorySelect.classList.add('error');
         isValid = false;
     } else {
         if (categoryToggle) categoryToggle.classList.remove('error');
+        if (categorySelect) categorySelect.classList.remove('error');
     }
 
     if (selectedActors.length === 0) {
         if (dropdownToggle) dropdownToggle.classList.add('error');
+        if (actorsSelect) actorsSelect.classList.add('error');
         isValid = false;
     } else {
         if (dropdownToggle) dropdownToggle.classList.remove('error');
+        if (actorsSelect) actorsSelect.classList.remove('error');
     }
 
     if (!isValid) {
         isSubmitting = false;
         return;
     }
+
+    const categoryPayload = categoryItems ? [selectedCategory] : selectedCategory;
 
     const movieData = {
         title: title ? title.value.trim() : '',
@@ -736,7 +813,7 @@ async function updateMovie() {
         adult: adult ? adult.checked : false,
         run_time_min: runtime ? parseInt(runtime.value, 10) : 120,
         imdb: imdb ? parseFloat(imdb.value).toFixed(1) : '0.0',
-        category: [selectedCategory],
+        category: categoryPayload,
         actors: selectedActors,
         overview: overview ? overview.value.trim() : ''
     };
@@ -747,7 +824,7 @@ async function updateMovie() {
             isSubmitting = false;
             return;
         }
-        const response = await fetch(apiURLMovieEdit, {
+        const response = await fetch(apiURLMovieCreate, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,

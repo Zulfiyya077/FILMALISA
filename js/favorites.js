@@ -1,6 +1,18 @@
 const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
 const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6MTAzLCJpYXQiOjE3NjA1MTQ4ODMsImV4cCI6MTc5MTYxODg4M30.9wtCEnAhwQ8f_LH9osr4KMeHu31QXRwJgcmSqfrJxNA';
 
+function showToast(message, type = 'success') {
+    Toastify({
+        text: message,
+        duration: 2500,
+        gravity: 'top',
+        position: 'right',
+        style: {
+            background: type === 'success' ? '#27ae60' : '#e74c3c'
+        }
+    }).showToast();
+}
+
 function getHeaders() {
     const token = sessionStorage.getItem('access_token') || ACCESS_TOKEN;
     
@@ -14,7 +26,7 @@ window.addEventListener('load', () => {
     const container = document.querySelector('#contentContainer');
 
     if (!container) {
-        console.error('Element #contentContainer not found!');
+        showToast('Favorites container not found.', 'error');
         return;
     }
 
@@ -109,10 +121,9 @@ async function getFavoriteMovies() {
         }
 
         const data = await response.json();
-        console.log(data);
         displayFavoriteMovies(data);
     } catch (error) {
-        console.error('Unexpected error happened:', error);
+        showToast('Favorites could not be loaded.', 'error');
     }
 }
 
@@ -120,7 +131,7 @@ function displayFavoriteMovies(element) {
     const container = document.querySelector('#contentContainer');
 
     if (!container) {
-        console.error('Container element not found!');
+        showToast('Favorites container not found.', 'error');
         return;
     }
 
@@ -133,6 +144,9 @@ function displayFavoriteMovies(element) {
         .map((el) => {
             return `
                 <div class="content-card" data-id="${el.id}">
+                    <button class="favorite-remove" type="button" aria-label="Remove from favorites" data-id="${el.id}">
+                        &times;
+                    </button>
                     <img
                         src="${el.cover_url}"
                         alt="${el.title}"
@@ -152,14 +166,26 @@ function displayFavoriteMovies(element) {
 
     container.querySelectorAll('.content-card').forEach((card) => {
         card.addEventListener('click', (e) => {
+            if (e.target.closest('.favorite-remove')) {
+                return;
+            }
             const movieId = e.currentTarget.getAttribute('data-id');
             window.location.href = `movie-detail.html?id=${movieId}`;
+        });
+    });
+
+    container.querySelectorAll('.favorite-remove').forEach((button) => {
+        button.addEventListener('click', async (event) => {
+            event.stopPropagation();
+            const movieId = button.getAttribute('data-id');
+            await removeFavorite(movieId, button.closest('.content-card'));
         });
     });
 }
 
 function applyStarRatings() {
     document.querySelectorAll('.movie-rating').forEach((ratingContainer) => {
+        ratingContainer.innerHTML = '';
         let imdbRating = parseFloat(ratingContainer.getAttribute('data-rating'));
         let starCount = Math.floor(imdbRating / 2);
         let hasHalfStar = (imdbRating / 2) % 1 !== 0;
@@ -177,4 +203,39 @@ function applyStarRatings() {
             ratingContainer.appendChild(star);
         }
     });
+}
+
+async function removeFavorite(movieId, cardElement) {
+    if (!movieId) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/movie/${movieId}/favorite`, {
+            method: 'DELETE',
+            headers: getHeaders()
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        if (cardElement) {
+            cardElement.remove();
+        }
+
+        showToast('Movie removed from favorites.', 'success');
+        updateFavoritesState();
+    } catch (error) {
+        showToast('Unable to remove movie.', 'error');
+    }
+}
+
+function updateFavoritesState() {
+    const container = document.querySelector('#contentContainer');
+    if (!container) return;
+
+    if (!container.children.length) {
+        container.innerHTML = '<p class="empty-message">No favorite movies added yet.</p>';
+    }
 }

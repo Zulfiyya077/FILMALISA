@@ -3,8 +3,7 @@ const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQ
 let searchTimeout;
 
 function getHeaders() {
-    const userToken = sessionStorage.getItem('user_token');
-    const token = userToken || ACCESS_TOKEN;
+    const token = sessionStorage.getItem('access_token') || ACCESS_TOKEN;
     
     return {
         'Content-Type': 'application/json',
@@ -27,11 +26,9 @@ async function getAllMovies() {
         }
 
         const data = await response.json();
-        console.log(data);
 
         displayAllMovies(data);
     } catch (error) {
-        console.error('Error loading movies:', error);
         const resultsContainer = document.getElementById('searchResults');
         resultsContainer.innerHTML = '<div class="no-results">Error loading movies. Please try again.</div>';
     }
@@ -87,11 +84,9 @@ async function searchMovies(movieName) {
         }
 
         const data = await response.json();
-        console.log(data);
 
         displaySearchResult(data);
     } catch (error) {
-        console.error('Error searching movies:', error);
         const resultsContainer = document.getElementById('searchResults');
         resultsContainer.innerHTML = '<div class="no-results">Error searching movies. Please try again.</div>';
     }
@@ -134,8 +129,6 @@ function initSearch() {
     const searchButton = document.getElementById('searchButton');
     const resultsContainer = document.getElementById('searchResults');
 
-    getAllMovies();
-
     searchInput.addEventListener('input', function(e) {
         clearTimeout(searchTimeout);
         const searchTerm = e.target.value.trim();
@@ -170,36 +163,10 @@ function initSearch() {
     });
 }
 
-function loadMenu() {
-    fetch('../includes/menu.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('menu-container').innerHTML = data;
-            
-            setTimeout(() => {
-                const sidebarItems = document.querySelectorAll('.sidebar-item');
-                sidebarItems.forEach(item => {
-                    item.classList.remove('active');
-                    if (item.href && item.href.includes('search.html')) {
-                        item.classList.add('active');
-                    }
-                });
-            }, 100);
-        })
-        .catch(error => console.error('Error loading menu:', error));
-}
-
-function loadFooter() {
-    fetch('../includes/footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('footer-container').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading footer:', error));
-}
-
 document.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.loadMenuAndFooter === 'function') {
+        window.loadMenuAndFooter({ activePage: 'search', includeFooter: true });
+    }
     initSearch();
-    loadMenu();
-    loadFooter();
+    getAllMovies();
 });

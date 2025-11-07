@@ -8,9 +8,7 @@
     <script>
         (function() {
             const token = sessionStorage.getItem('access_token');
-            const email = (sessionStorage.getItem('user_email') || '').toLowerCase();
-            const allowedAdmins = ['admin@admin.com'];
-            if (!token || !allowedAdmins.includes(email)) {
+            if (!token) {
                 window.location.replace('../auth/adminlogin.html');
             }
         })();

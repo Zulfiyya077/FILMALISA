@@ -21,18 +21,10 @@ const apiURLCategories = 'https://api.sarkhanrahimli.dev/api/filmalisa/admin/cat
 const apiURLMovie = 'https://api.sarkhanrahimli.dev/api/filmalisa/movies';
 const apiURLActors = 'https://api.sarkhanrahimli.dev/api/filmalisa/admin/actors';
 const apiURLMovieCreate = 'https://api.sarkhanrahimli.dev/api/filmalisa/admin/movie';
-const ADMIN_EMAILS = ['admin@admin.com'];
-
-function isAdminEmail(email) {
-    if (!email) return false;
-    return ADMIN_EMAILS.includes(email.toLowerCase());
-}
 
 function getToken() {
     const token = sessionStorage.getItem('access_token');
-    const email = sessionStorage.getItem('user_email');
-
-    if (!token || !isAdminEmail(email)) {
+    if (!token) {
         showToast('Your session has expired. Please sign in again.', 'error');
         setTimeout(() => {
             sessionStorage.removeItem('access_token');

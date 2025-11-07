@@ -5,20 +5,22 @@
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   background-color: #111;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Poppins", sans-serif;
   color: #ddd;
-  padding-bottom: 150px;
+  padding: 80px 24px;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 480px;
 }
 
 .logo {
@@ -31,28 +33,23 @@ body {
 }
 
 .logo-img {
-  width: 249px;
-  height: 214px;
+  width: clamp(140px, 45%, 220px);
+  height: auto;
   margin-bottom: 10px;
 }
 
 .logo h1 {
-  width: 347px;
-  height: 80px;
-  line-height: 80px;
   font-family: "Numans", sans-serif;
-  font-size: 70px;
+  font-size: clamp(36px, 9vw, 64px);
   font-weight: 400;
   color: #c3c8d4;
 }
 
 .subtitle {
-  width: 618px;
-  height: 80px;
-  line-height: 80px;
-  letter-spacing: -2px;
+  width: 100%;
+  line-height: 1.4;
   font-family: "poppins", sans-serif;
-  font-size: 40px;
+  font-size: clamp(20px, 6vw, 32px);
   font-weight: 500;
   color: #c3c8d4;
   margin-top: 4px;
@@ -61,13 +58,12 @@ body {
 .login-form {
   display: flex;
   flex-direction: column;
-  width: 547px;
-  height: 64px;
+  width: 100%;
+  gap: 18px;
 }
 
 .input-group {
   position: relative;
-  margin-bottom: 15px;
 }
 
 .input-group input {
@@ -146,4 +142,53 @@ body {
 
 .login-btn:hover {
   opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 64px 20px;
+  }
+
+  .container {
+    max-width: 420px;
+  }
+
+  .input-group input {
+    padding: 12px 44px;
+    font-size: 15px;
+  }
+
+  .login-btn,
+  .register-link {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 48px 16px;
+  }
+
+  .logo {
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .login-form {
+    gap: 14px;
+  }
+
+  .input-group input {
+    padding: 12px 40px;
+    font-size: 14px;
+  }
+
+  .login-btn {
+    padding: 12px;
+    border-radius: 10px;
+  }
 }

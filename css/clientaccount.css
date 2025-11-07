@@ -171,7 +171,7 @@ body {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .main-content {
     padding: 100px 16px 50px;
   }
@@ -180,11 +180,54 @@ body {
     font-size: 28px;
   }
 
+  .account-container {
+    padding: 0 4px;
+  }
+
+  .profile-photo img {
+    width: 150px;
+    height: 150px;
+  }
+
   .profile-input {
     max-width: 100%;
   }
 
   .profile-actions {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    gap: 24px;
+  }
+
+  .profile-photo img {
+    width: 130px;
+    height: 130px;
+    border-width: 2px;
+  }
+
+  .profile-input {
+    height: auto;
+  }
+
+  .profile-input input {
+    height: 56px;
+    padding: 0 44px;
+  }
+
+  .profile-hint {
+    font-size: 12px;
+  }
+
+  .profile-actions {
+    gap: 12px;
+  }
+
+  .profile-submit {
+    height: 56px;
+    border-radius: 10px;
   }
 }

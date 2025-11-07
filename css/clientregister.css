@@ -21,12 +21,12 @@ body {
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  padding: 40px 20px 60px;
+  padding: 80px 24px;
 }
 
 .content {
   width: 100%;
-  max-width: 400px;
+  max-width: 460px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -40,14 +40,14 @@ body {
 }
 
 .logo-container img {
-  width: 249px;
-  height: 214px;
+  width: clamp(140px, 50%, 220px);
+  height: auto;
   margin-bottom: 10px;
 }
 
 .logo-container h1 {
   font-family: "Numans", sans-serif;
-  font-size: 70px;
+  font-size: clamp(40px, 9vw, 64px);
   font-weight: 400;
   color: #c3c8d4;
   margin: 0;
@@ -55,12 +55,12 @@ body {
 
 .logo-container h2 {
   font-family: "Poppins", sans-serif;
-  font-size: 40px;
+  font-size: clamp(22px, 6vw, 32px);
   font-weight: 500;
   color: #c3c8d4;
   text-align: center;
-  margin-top: 50px;
-  margin-bottom: 5px;
+  margin-top: 28px;
+  margin-bottom: 12px;
 }
 
 form {
@@ -74,7 +74,8 @@ form {
 
 .input-box {
   position: relative;
-  width: 547px;
+  width: 100%;
+  max-width: 520px;
   height: 64px;
   display: flex;
   align-items: center;
@@ -124,7 +125,8 @@ form {
 }
 
 .bottom-text {
-  width: 547px;
+  width: 100%;
+  max-width: 520px;
   color: #99a3be;
   font-family: "Poppins", sans-serif;
   font-weight: 400;
@@ -157,11 +159,66 @@ form {
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s;
-  width: 547px;
+  width: 100%;
+  max-width: 520px;
   height: 64px;
 }
 
 .btn:hover {
   opacity: 0.9;
   transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 64px 20px;
+  }
+
+  .content {
+    max-width: 420px;
+  }
+
+  .input-box {
+    height: 60px;
+  }
+
+  .input-box input,
+  .btn {
+    padding: 0 44px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 48px 16px;
+  }
+
+  .content {
+    max-width: 100%;
+  }
+
+  .logo-container h2 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+  }
+
+  .input-box,
+  .btn,
+  .bottom-text {
+    max-width: 100%;
+  }
+
+  .input-box input {
+    padding: 0 40px;
+    font-size: 14px;
+  }
+
+  .btn {
+    height: 58px;
+  }
 }

@@ -216,7 +216,16 @@ async function removeFavorite(movieId, cardElement) {
             headers: getHeaders()
         });
 
-        if (!response.ok) {
+        let payload = null;
+        try {
+            payload = await response.json();
+        } catch (_) {
+            payload = null;
+        }
+
+        const isBackendSuccess = payload?.result === true || payload?.message === 'Successfully removed favorites';
+
+        if (!response.ok && !isBackendSuccess) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
@@ -226,6 +235,7 @@ async function removeFavorite(movieId, cardElement) {
 
         showToast('Movie removed from favorites.', 'success');
         updateFavoritesState();
+        await getFavoriteMovies();
     } catch (error) {
         showToast('Unable to remove movie.', 'error');
     }

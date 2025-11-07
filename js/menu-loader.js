@@ -1,7 +1,8 @@
 const MENU_DEFAULTS = {
-
   menuPath: '/includes/menu.html',
-  footerPath: '/includes/footer.html'
+  footerPath: '/includes/footer.html',
+  avatarBase: 'https://api.dicebear.com/7.x/initials/svg?backgroundColor=58209d,241f36&radius=50&seed=',
+  defaultAvatar: 'https://api.dicebear.com/7.x/initials/svg?backgroundColor=58209d,241f36&radius=50&seed=FILMALISA'
 };
 
 function getStoredUser() {
@@ -15,12 +16,18 @@ function getStoredUser() {
   }
 }
 
-function resolveAvatarUrl(url) {
-  if (!url || typeof url !== 'string') {
-    return MENU_DEFAULTS.defaultAvatar;
+function generateAvatarUrl(seed) {
+  const finalSeed = seed && seed.trim ? seed.trim() : 'FILMALISA User';
+  return `${MENU_DEFAULTS.avatarBase}${encodeURIComponent(finalSeed)}`;
+}
+
+function resolveAvatar(user = {}, overrideUrl) {
+  const candidate = overrideUrl && typeof overrideUrl === 'string' ? overrideUrl.trim() : (user.img_url || '');
+  if (candidate && candidate.trim()) {
+    return candidate.trim();
   }
-  const trimmed = url.trim();
-  return trimmed.length ? trimmed : MENU_DEFAULTS.defaultAvatar;
+  const seed = user.full_name || user.email || 'FILMALISA User';
+  return generateAvatarUrl(seed);
 }
 
 function setActiveSidebarItem(container, activePage) {
@@ -35,17 +42,18 @@ function setActiveSidebarItem(container, activePage) {
   });
 }
 
-function applyAvatar(container, avatarUrl) {
+function applyAvatar(container, storedUser) {
   const avatarImg = container.querySelector('[data-role="sidebar-avatar"]');
   if (!avatarImg) return;
-  const resolved = resolveAvatarUrl(avatarUrl);
+  const resolved = resolveAvatar(storedUser || {});
   avatarImg.src = resolved;
   avatarImg.onerror = function () {
     avatarImg.onerror = null;
     avatarImg.src = MENU_DEFAULTS.defaultAvatar;
   };
-  window.updateSidebarAvatar = function (newUrl) {
-    const finalUrl = resolveAvatarUrl(newUrl);
+  window.updateSidebarAvatar = function (overrideUrl) {
+    const latestUser = getStoredUser();
+    const finalUrl = resolveAvatar(latestUser || {}, overrideUrl);
     avatarImg.src = finalUrl;
     avatarImg.onerror = function () {
       avatarImg.onerror = null;
@@ -72,7 +80,7 @@ function loadMenu(container, activePage) {
       container.innerHTML = html;
       setActiveSidebarItem(container, activePage);
       const storedUser = getStoredUser();
-      applyAvatar(container, storedUser?.img_url);
+      applyAvatar(container, storedUser);
     })
     .catch((error) => console.error('Menu failed to load:', error));
 }

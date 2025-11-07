@@ -1,4 +1,34 @@
 const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
+const AVATAR_BASE_URL = 'https://api.dicebear.com/7.x/initials/svg?backgroundColor=58209d,241f36&radius=50&seed=';
+
+function generateAvatarUrl(seed) {
+  const finalSeed = seed && seed.trim() ? seed.trim() : 'FILMALISA User';
+  return `${AVATAR_BASE_URL}${encodeURIComponent(finalSeed)}`;
+}
+
+function normalizeProfile(profile = {}, fallbackEmail = '') {
+  const normalizedEmail = (profile.email || fallbackEmail || '').toLowerCase();
+  const fullName = profile.full_name || profile.name || '';
+  const trimmedImage = profile.img_url && profile.img_url.trim ? profile.img_url.trim() : '';
+
+  const normalizedProfile = {
+    ...profile,
+    full_name: fullName,
+    email: normalizedEmail,
+    img_url: trimmedImage || generateAvatarUrl(fullName || normalizedEmail)
+  };
+
+  return normalizedProfile;
+}
+
+function storeUserSession(profile, fallbackEmail) {
+  const normalizedProfile = normalizeProfile(profile, fallbackEmail);
+  sessionStorage.setItem('user_data', JSON.stringify(normalizedProfile));
+  if (normalizedProfile.email) {
+    sessionStorage.setItem('user_email', normalizedProfile.email);
+  }
+  return normalizedProfile;
+}
 
 // Helper function to show toast notifications
 function showToast(message, type = 'error') {
@@ -116,22 +146,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (response.ok && data.result === true) {
-          const profileEmail = (data.data?.profile?.email || email || '').toLowerCase();
+          let storedProfile = null;
 
           if (data.data && data.data.tokens && data.data.tokens.access_token) {
             sessionStorage.setItem('access_token', data.data.tokens.access_token);
-            if (data.data.profile) {
-              sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
-            }
+            storedProfile = storeUserSession(data.data.profile || {}, email);
           } else if (data.data && data.data.access_token) {
             sessionStorage.setItem('access_token', data.data.access_token);
-            if (data.data.profile) {
-              sessionStorage.setItem('user_data', JSON.stringify(data.data.profile));
-            }
+            storedProfile = storeUserSession(data.data.profile || {}, email);
+          } else {
+            storedProfile = storeUserSession(data.data?.profile || {}, email);
           }
 
-          if (profileEmail) {
-            sessionStorage.setItem('user_email', profileEmail);
+          if (!storedProfile) {
+            storeUserSession({}, email);
           }
 
           showToast("Signed in successfully", 'success');

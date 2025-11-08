@@ -28,7 +28,7 @@ function getAdminHeaders() {
 }
 
 function getClientHeaders() {
-    const token = sessionStorage.getItem('access_token');
+    const token = sessionStorage.getItem('access_token') || sessionStorage.getItem('user_token');
     if (!token) {
         return null;
     }
@@ -39,7 +39,7 @@ function getClientHeaders() {
 }
 
 function requireClientSession() {
-    const token = sessionStorage.getItem('access_token');
+    const token = sessionStorage.getItem('access_token') || sessionStorage.getItem('user_token');
     if (!token) {
         showToast('Please sign in to continue.', 'error');
         setTimeout(() => {

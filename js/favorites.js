@@ -13,7 +13,7 @@ function showToast(message, type = 'success') {
 }
 
 function getHeaders() {
-    const token = sessionStorage.getItem('access_token');
+    const token = sessionStorage.getItem('access_token') || sessionStorage.getItem('user_token');
     if (!token) {
         window.location.href = '../auth/Clientlogin.html';
         return null;
@@ -133,8 +133,8 @@ function displayFavoriteMovies(element) {
             const imdb = el.imdb ?? el.movie?.imdb ?? '0';
 
             return `
-                <div class="content-card" data-movie-id="${movieId}">
-                    <button class="favorite-remove" type="button" aria-label="Remove from favorites" data-movie-id="${movieId}">
+                <div class="content-card" data-movie-id="${movieId}" data-id="${movieId}">
+                    <button class="favorite-remove" type="button" aria-label="Remove from favorites" data-movie-id="${movieId}" data-id="${movieId}">
                         &times;
                     </button>
                     <img

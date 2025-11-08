@@ -148,14 +148,20 @@ document.addEventListener("DOMContentLoaded", function () {
         if (response.ok && data.result === true) {
           let storedProfile = null;
 
+          let tokenValue = null;
+
           if (data.data && data.data.tokens && data.data.tokens.access_token) {
-            sessionStorage.setItem('access_token', data.data.tokens.access_token);
-            storedProfile = storeUserSession(data.data.profile || {}, email);
+            tokenValue = data.data.tokens.access_token;
           } else if (data.data && data.data.access_token) {
-            sessionStorage.setItem('access_token', data.data.access_token);
-            storedProfile = storeUserSession(data.data.profile || {}, email);
+            tokenValue = data.data.access_token;
           } else {
             storedProfile = storeUserSession(data.data?.profile || {}, email);
+          }
+
+          if (tokenValue) {
+            sessionStorage.setItem('access_token', tokenValue);
+            sessionStorage.setItem('user_token', tokenValue);
+            storedProfile = storeUserSession(data.data.profile || {}, email);
           }
 
           if (!storedProfile) {

@@ -81,6 +81,10 @@ window.addEventListener('pageshow', () => {
     syncFavoritesIfNeeded();
 });
 
+window.addEventListener('focus', () => {
+    syncFavoritesIfNeeded();
+});
+
 async function getFavoriteMovies() {
     try {
         const response = await fetch(
@@ -192,13 +196,24 @@ async function removeFavorite(movieId, cardElement) {
         });
 
         let payload = null;
+        let rawText = '';
         try {
-            payload = await response.json();
+            payload = await response.clone().json();
         } catch (_) {
-            payload = null;
+            try {
+                rawText = (await response.text()) || '';
+            } catch (__) {
+                rawText = '';
+            }
         }
 
-        const isBackendSuccess = payload?.result === true || payload?.message === 'Successfully removed favorites';
+        const message = payload?.message || rawText || '';
+        const normalizedMessage = message.toLowerCase();
+        const isBackendSuccess =
+            payload?.result === true ||
+            normalizedMessage.includes('success') ||
+            normalizedMessage.includes('removed') ||
+            normalizedMessage.includes('deleted');
 
         if (!response.ok && !isBackendSuccess) {
             throw new Error(`HTTP error! status: ${response.status}`);

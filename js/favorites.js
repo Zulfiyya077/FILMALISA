@@ -1,5 +1,4 @@
 const API_URL = 'https://api.sarkhanrahimli.dev/api/filmalisa';
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInN1YiI6MTAzLCJpYXQiOjE3NjA1MTQ4ODMsImV4cCI6MTc5MTYxODg4M30.9wtCEnAhwQ8f_LH9osr4KMeHu31QXRwJgcmSqfrJxNA';
 
 function showToast(message, type = 'success') {
     Toastify({
@@ -14,7 +13,11 @@ function showToast(message, type = 'success') {
 }
 
 function getHeaders() {
-    const token = sessionStorage.getItem('access_token') || ACCESS_TOKEN;
+    const token = sessionStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '../auth/Clientlogin.html';
+        return null;
+    }
     
     return {
         'Content-Type': 'application/json',
@@ -44,14 +47,14 @@ function initFavoritesPage() {
         if (removeButton && card) {
             event.preventDefault();
             event.stopPropagation();
-            const movieId = removeButton.getAttribute('data-id');
+            const movieId = removeButton.getAttribute('data-movie-id');
             await removeFavorite(movieId, card);
             sessionStorage.setItem('favoritesNeedsSync', 'true');
             return;
         }
 
         if (card) {
-            const movieId = card.getAttribute('data-id');
+            const movieId = card.getAttribute('data-movie-id');
             if (movieId) {
                 window.location.href = `movie-detail.html?id=${movieId}`;
             }
@@ -87,13 +90,15 @@ window.addEventListener('focus', () => {
 
 async function getFavoriteMovies() {
     try {
-        const response = await fetch(
-            `${API_URL}/movies/favorites`,
-            {
-                method: 'GET',
-                headers: getHeaders()
-            }
-        );
+        const headers = getHeaders();
+        if (!headers) {
+            return;
+        }
+
+        const response = await fetch(`${API_URL}/movies/favorites`, {
+            method: 'GET',
+            headers
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -121,20 +126,26 @@ function displayFavoriteMovies(element) {
 
     container.innerHTML = element.data
         .map((el) => {
+            const movieId = el.movie_id || el.movie?.id || el.id;
+            const coverUrl = el.cover_url || el.movie?.cover_url || '';
+            const title = el.title || el.movie?.title || 'Untitled';
+            const categoryName = el.category?.name || el.movie?.category?.name || 'Unknown category';
+            const imdb = el.imdb ?? el.movie?.imdb ?? '0';
+
             return `
-                <div class="content-card" data-id="${el.id}">
-                    <button class="favorite-remove" type="button" aria-label="Remove from favorites" data-id="${el.id}">
+                <div class="content-card" data-movie-id="${movieId}">
+                    <button class="favorite-remove" type="button" aria-label="Remove from favorites" data-movie-id="${movieId}">
                         &times;
                     </button>
                     <img
-                        src="${el.cover_url}"
-                        alt="${el.title}"
+                        src="${coverUrl}"
+                        alt="${title}"
                         class="content-image"
                     />
                     <div class="content-info">
-                        <span class="content-category">${el.category.name}</span>
-                        <div class="movie-rating" data-rating="${el.imdb}"></div>
-                        <p class="content-title">${el.title}</p>
+                        <span class="content-category">${categoryName}</span>
+                        <div class="movie-rating" data-rating="${imdb}"></div>
+                        <p class="content-title">${title}</p>
                     </div>
                 </div>
             `;
@@ -148,7 +159,7 @@ function displayFavoriteMovies(element) {
             if (e.target.closest('.favorite-remove')) {
                 return;
             }
-            const movieId = e.currentTarget.getAttribute('data-id');
+            const movieId = e.currentTarget.getAttribute('data-movie-id');
             window.location.href = `movie-detail.html?id=${movieId}`;
         });
     });
@@ -156,7 +167,7 @@ function displayFavoriteMovies(element) {
     container.querySelectorAll('.favorite-remove').forEach((button) => {
         button.addEventListener('click', async (event) => {
             event.stopPropagation();
-            const movieId = button.getAttribute('data-id');
+            const movieId = button.getAttribute('data-movie-id');
             await removeFavorite(movieId, button.closest('.content-card'));
         });
     });
@@ -190,9 +201,14 @@ async function removeFavorite(movieId, cardElement) {
     }
 
     try {
+        const headers = getHeaders();
+        if (!headers) {
+            return;
+        }
+
         const response = await fetch(`${API_URL}/movie/${movieId}/favorite`, {
             method: 'DELETE',
-            headers: getHeaders()
+            headers
         });
 
         let payload = null;

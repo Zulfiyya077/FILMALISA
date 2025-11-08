@@ -450,6 +450,7 @@ async function addToFavorites() {
             isFavorite = true;
             favoriteId = currentMovieId;
             updateFavoriteButton();
+            sessionStorage.setItem('favoritesNeedsSync', 'true');
             showToast('Added to favorites!', 'success');
         }
     } catch (error) {
@@ -495,6 +496,7 @@ async function removeFromFavorites() {
             isFavorite = false;
             favoriteId = null;
             updateFavoriteButton();
+            sessionStorage.setItem('favoritesNeedsSync', 'true');
             showToast('Removed from favorites', 'success');
         }
     } catch (error) {

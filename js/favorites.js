@@ -22,7 +22,14 @@ function getHeaders() {
     };
 }
 
-window.addEventListener('load', () => {
+function syncFavoritesIfNeeded() {
+    if (sessionStorage.getItem('favoritesNeedsSync') === 'true') {
+        sessionStorage.removeItem('favoritesNeedsSync');
+        getFavoriteMovies();
+    }
+}
+
+function initFavoritesPage() {
     const container = document.querySelector('#contentContainer');
 
     if (!container) {
@@ -30,80 +37,48 @@ window.addEventListener('load', () => {
         return;
     }
 
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-    let isDrag = false;
-    let clickTimeout;
+    container.addEventListener('click', async (event) => {
+        const removeButton = event.target.closest('.favorite-remove');
+        const card = event.target.closest('.content-card');
 
-    container.addEventListener('mousedown', (e) => {
-        isDown = true;
-        isDrag = false;
-        container.classList.add('active');
-        startX = e.pageX - container.offsetLeft;
-        scrollLeft = container.scrollLeft;
+        if (removeButton && card) {
+            event.preventDefault();
+            event.stopPropagation();
+            const movieId = removeButton.getAttribute('data-id');
+            await removeFavorite(movieId, card);
+            sessionStorage.setItem('favoritesNeedsSync', 'true');
+            return;
+        }
 
-        clickTimeout = setTimeout(() => {
-            isDrag = true;
-            container.querySelectorAll('.content-card').forEach((card) => {
-                card.style.pointerEvents = 'none';
-            });
-        }, 150);
-    });
-
-    container.addEventListener('mouseleave', () => {
-        isDown = false;
-        clearTimeout(clickTimeout);
-        container.classList.remove('active');
-
-        container.querySelectorAll('.content-card').forEach((card) => {
-            card.style.pointerEvents = 'auto';
-        });
-    });
-
-    container.addEventListener('mouseup', () => {
-        isDown = false;
-        clearTimeout(clickTimeout);
-        container.classList.remove('active');
-
-        container.querySelectorAll('.content-card').forEach((card) => {
-            card.style.pointerEvents = 'auto';
-        });
-    });
-
-    container.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        isDrag = true;
-
-        const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        container.scrollLeft = scrollLeft - walk;
-    });
-
-    container.addEventListener('dragstart', (e) => {
-        e.preventDefault();
-    });
-
-    document.querySelectorAll('.content-card img').forEach((img) => {
-        img.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-    });
-
-    document.addEventListener('dragstart', (e) => {
-        e.preventDefault();
+        if (card) {
+            const movieId = card.getAttribute('data-id');
+            if (movieId) {
+                window.location.href = `movie-detail.html?id=${movieId}`;
+            }
+        }
     });
 
     getFavoriteMovies();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const token = sessionStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '../auth/Clientlogin.html';
+        return;
+    }
+    initFavoritesPage();
+    syncFavoritesIfNeeded();
 });
 
-window.addEventListener('load', () => {
-    const mainToken = sessionStorage.getItem('access_token');
-
-    if (!mainToken) {
-        window.location.href = '../auth/Clientlogin.html';
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        syncFavoritesIfNeeded();
     }
+});
+
+window.addEventListener('pageshow', () => {
+    syncFavoritesIfNeeded();
 });
 
 async function getFavoriteMovies() {

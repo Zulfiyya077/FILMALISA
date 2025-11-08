@@ -22,6 +22,13 @@ function getHeaders() {
     };
 }
 
+function syncFavoritesIfNeeded() {
+    if (sessionStorage.getItem('favoritesNeedsSync') === 'true') {
+        sessionStorage.removeItem('favoritesNeedsSync');
+        getFavoriteMovies();
+    }
+}
+
 function initFavoritesPage() {
     const container = document.querySelector('#contentContainer');
 
@@ -39,6 +46,7 @@ function initFavoritesPage() {
             event.stopPropagation();
             const movieId = removeButton.getAttribute('data-id');
             await removeFavorite(movieId, card);
+            sessionStorage.setItem('favoritesNeedsSync', 'true');
             return;
         }
 
@@ -60,6 +68,17 @@ window.addEventListener('DOMContentLoaded', () => {
         return;
     }
     initFavoritesPage();
+    syncFavoritesIfNeeded();
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        syncFavoritesIfNeeded();
+    }
+});
+
+window.addEventListener('pageshow', () => {
+    syncFavoritesIfNeeded();
 });
 
 async function getFavoriteMovies() {

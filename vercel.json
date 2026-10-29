@@ -1,5 +1,26 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/register",
+      "destination": "/auth/clientregister.html",
+      "permanent": false
+    },
+    {
+      "source": "/register.html",
+      "destination": "/auth/clientregister.html",
+      "permanent": false
+    },
+    {
+      "source": "/login",
+      "destination": "/auth/Clientlogin.html",
+      "permanent": false
+    },
+    {
+      "source": "/login.html",
+      "destination": "/auth/Clientlogin.html",
+      "permanent": false
+    }
+  ]
 }
-

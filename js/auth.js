@@ -57,9 +57,28 @@ function validatePassword(password) {
 }
 
 function validateFullName(name) {
-  // Name should be at least 2 characters and contain only letters and spaces
-  const nameRegex = /^[a-zA-Z\s]{2,}$/;
+  const nameRegex = /^[\p{L}\s'-]{2,}$/u;
   return nameRegex.test(name.trim());
+}
+
+function getEmailFromUrl() {
+  const hash = window.location.hash.startsWith('#')
+    ? window.location.hash.slice(1)
+    : window.location.hash;
+  const query = window.location.search.startsWith('?')
+    ? window.location.search.slice(1)
+    : window.location.search;
+  const raw = new URLSearchParams(hash).get('email') || new URLSearchParams(query).get('email') || '';
+  try {
+    return decodeURIComponent(raw).trim();
+  } catch (error) {
+    return raw.trim();
+  }
+}
+
+function isAlreadyRegisteredMessage(message) {
+  const text = (message || '').toLowerCase();
+  return text.includes('already') || text.includes('exists') || text.includes('in use');
 }
 
 function sanitizeInput(input) {
@@ -196,12 +215,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const registerPasswordInput = document.getElementById('registerPassword');
 
   if (registerForm && registerNameInput && registerEmailInput && registerPasswordInput) {
-    const hash = window.location.hash;
-    if (hash && hash.includes('email=')) {
-      const emailParam = decodeURIComponent(hash.split('email=')[1]);
-      if (validateEmail(emailParam)) {
-        registerEmailInput.value = emailParam;
-      }
+    const emailParam = getEmailFromUrl();
+    if (emailParam && validateEmail(emailParam)) {
+      registerEmailInput.value = emailParam;
     }
     
     const savedEmail = sessionStorage.getItem("userRegistered");
@@ -285,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }, 1000);
         } else {
           const errorMessage = data.message || "Registration failed";
-          if (errorMessage.includes("already registered") || errorMessage.includes("already in use")) {
+          if (isAlreadyRegisteredMessage(errorMessage)) {
             showToast("This email is already registered. Please sign in.", 'error');
             setTimeout(() => {
               window.location.href = "Clientlogin.html";

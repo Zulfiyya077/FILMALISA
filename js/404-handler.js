@@ -2,6 +2,8 @@
     const validPages = [
         'index.html',
         '',
+        'register.html',
+        'login.html',
         'auth/Clientlogin.html',
         'auth/clientregister.html',
         'auth/adminlogin.html',
